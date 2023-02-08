@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
-import 'package:watok/features/authentication/username_screen.dart';
+import 'package:watok/features/authentication/loginform_screen.dart';
 import 'package:watok/features/authentication/widgets/auth_button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
   void _onClickEmail(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const UsernameScreen(),
+        builder: (context) => const LoginFormScreen(),
       ),
     );
   }

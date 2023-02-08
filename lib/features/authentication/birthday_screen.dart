@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
@@ -5,45 +6,46 @@ import 'package:watok/features/authentication/widgets/form_button.dart';
 import '../../constants/sizes.dart';
 import 'email_screen.dart';
 
-class UsernameScreen extends StatefulWidget {
-  const UsernameScreen({super.key});
+class BirthdayScreen extends StatefulWidget {
+  const BirthdayScreen({super.key});
 
   @override
-  State<UsernameScreen> createState() => _UsernameScreenState();
+  State<BirthdayScreen> createState() => _BirthdayScreenState();
 }
 
-class _UsernameScreenState extends State<UsernameScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+class _BirthdayScreenState extends State<BirthdayScreen> {
+  final TextEditingController _birthdayController = TextEditingController();
 
-  String _username = '';
+  late DateTime initDate;
 
   @override
   void initState() {
     super.initState();
-
-    _usernameController.addListener(() {
-      setState(() {
-        _username = _usernameController.text;
-      });
-    });
+    DateTime now = DateTime.now();
+    initDate = DateTime(now.year - 12);
+    _setDate(initDate);
   }
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _birthdayController.dispose();
     super.dispose();
   }
 
   // 🚀 Next 클릭
   void _onClickNext() {
-    // username이 비어있거나 길이가 3이하일 경우 return
-    if (_username.isEmpty || _username.length < 3) {
-      return;
-    }
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const EmailScreen(),
       ),
+    );
+  }
+
+  // 🚀 날짜 계산 함수
+  void _setDate(DateTime date) {
+    final textDate = date.toString().split(" ").first;
+    _birthdayController.value = TextEditingValue(
+      text: textDate,
     );
   }
 
@@ -62,7 +64,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
           children: [
             Gaps.v60,
             const Text(
-              "사용할 닉네임",
+              "생일을 입력해주세요!",
               style: TextStyle(
                 fontSize: Sizes.size24,
                 fontWeight: FontWeight.w600,
@@ -70,7 +72,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
             ),
             Gaps.v8,
             const Text(
-              "나중에 바꿀 수 있습니다.",
+              "생일은 다른사람들에게 보이지 않습니다.",
               style: TextStyle(
                 fontSize: Sizes.size16,
                 color: Colors.black45,
@@ -79,9 +81,9 @@ class _UsernameScreenState extends State<UsernameScreen> {
             ),
             Gaps.v16,
             TextField(
-              controller: _usernameController,
+              enabled: false,
+              controller: _birthdayController,
               decoration: InputDecoration(
-                hintText: "닉네임 (3글자 이상)",
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.grey.shade400,
@@ -98,12 +100,23 @@ class _UsernameScreenState extends State<UsernameScreen> {
             Gaps.v16,
             GestureDetector(
               onTap: _onClickNext,
-              child: FormButton(
+              child: const FormButton(
+                disabled: false,
                 btnText: "다음",
-                disabled: _username.length < 3,
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: SizedBox(
+          height: 300,
+          child: CupertinoDatePicker(
+            maximumDate: initDate,
+            initialDateTime: initDate,
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: _setDate,
+          ),
         ),
       ),
     );

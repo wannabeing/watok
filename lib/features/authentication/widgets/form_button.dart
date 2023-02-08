@@ -6,9 +6,11 @@ class FormButton extends StatelessWidget {
   const FormButton({
     super.key,
     required this.disabled,
+    required this.btnText,
   });
 
   final bool disabled;
+  final String btnText;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,8 @@ class FormButton extends StatelessWidget {
             fontSize: Sizes.size16,
             color: disabled ? Colors.grey.shade400 : Colors.white,
           ),
-          child: const Text(
-            "다음",
+          child: Text(
+            btnText,
             textAlign: TextAlign.center,
           ),
         ),
