@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
+import 'package:watok/features/onboard/interests_screen.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -23,9 +24,16 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
 
     if (isVal == true) {
       _formKey.currentState?.save();
+
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const InterestsScreen(),
+        ),
+      );
     }
   }
 
+  // 🚀 이메일 유효성 검사
   String? _isEmailValid(String val) {
     if (val.isEmpty) return "이메일을 입력해주세요.";
     final regExp = RegExp(
@@ -37,6 +45,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     return null;
   }
 
+  // 🚀 비밀번호 유효성 검사
   String? _isPwValid(String val) {
     if (val.length < 8) return "비밀번호 길이는 8-20글자 입니다.";
 

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watok/constants/gaps.dart';
+import 'package:watok/features/authentication/loginform_screen.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
 
 import '../../constants/sizes.dart';
-import 'email_screen.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({super.key});
@@ -36,7 +36,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   void _onClickNext() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const EmailScreen(),
+        builder: (context) => const LoginFormScreen(),
       ),
     );
   }
