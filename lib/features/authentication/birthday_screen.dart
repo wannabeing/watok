@@ -34,10 +34,11 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   // 🚀 Next 클릭
   void _onClickNext() {
-    Navigator.of(context).push(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const LoginFormScreen(),
       ),
+      (route) => false, // 이전 화면 모두 지우고 이동
     );
   }
 

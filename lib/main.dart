@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:watok/features/onboard/interests_screen.dart';
+import 'package:watok/features/navigations/main_nav_screen.dart';
 
 import 'constants/sizes.dart';
 
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const InterestsScreen(),
+      home: MainNavScreen(),
     );
   }
 }

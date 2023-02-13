@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:watok/features/navigations/main_nav_screen.dart';
 import 'package:watok/features/onboard/widgets/tt_first_widget.dart';
 import 'package:watok/features/onboard/widgets/tt_second_widget.dart';
 
@@ -54,6 +55,15 @@ class _TutorialScreenState extends State<TutorialScreen> {
     }
   }
 
+  void _onStartApp() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const MainNavScreen(),
+      ),
+      (route) => false, // 이전 화면 모두 지우고 이동
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -91,7 +101,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                         milliseconds: 300,
                       ),
                       child: CupertinoButton(
-                        onPressed: () {},
+                        onPressed: _onStartApp,
                         color: Theme.of(context).primaryColor,
                         child: const Text("이해했어요!"),
                       ),
