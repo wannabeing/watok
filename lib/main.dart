@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: MainNavScreen(),
+      home: const MainNavScreen(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants/gaps.dart';
@@ -24,7 +25,10 @@ class NavMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: () => onTap(),
+        onTap: () => {
+          HapticFeedback.vibrate(), // 미세한 햅틱반응 넣기
+          onTap(),
+        },
         child: Container(
           color: Colors.black,
           child: AnimatedOpacity(

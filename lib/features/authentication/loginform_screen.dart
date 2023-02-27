@@ -29,7 +29,9 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         MaterialPageRoute(
           builder: (context) => const InterestsScreen(),
         ),
-        (route) => false, // 이전 화면 모두 지우고 이동
+        (route) => false,
+        // route에는 이전 화면들의 정보가 담겨 있음
+        // false: 이전 화면 모두 지우고 이동
       );
     }
   }

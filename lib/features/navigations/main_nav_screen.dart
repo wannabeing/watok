@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/features/navigations/widgets/nav_create_video_btn.dart';
 import 'package:watok/features/navigations/widgets/nav_menu.dart';
+import 'package:watok/features/videos/video_timeline_screen.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -15,15 +16,6 @@ class MainNavScreen extends StatefulWidget {
 
 class _MainNavScreenState extends State<MainNavScreen> {
   int _selectedIndex = 0;
-
-  final screens = [
-    const Center(
-      child: Text('홈'),
-    ),
-    const Center(
-      child: Text('검색'),
-    )
-  ];
 
   // NAV바 이동 함수
   void _onTap(int index) {
@@ -45,6 +37,28 @@ class _MainNavScreenState extends State<MainNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _selectedIndex == 0 ? Colors.black : Colors.white,
+      body: Stack(
+        children: [
+          Offstage(
+            // offstage: false이면 화면에 보임
+            offstage: _selectedIndex != 0,
+            child: const VideoTimelineScreen(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 1,
+            child: Container(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 3,
+            child: Container(),
+          ),
+          Offstage(
+            offstage: _selectedIndex != 4,
+            child: Container(),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.black,
         child: Padding(
