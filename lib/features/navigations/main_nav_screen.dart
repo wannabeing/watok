@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:readmore/readmore.dart';
 import 'package:watok/features/navigations/widgets/nav_create_video_btn.dart';
 import 'package:watok/features/navigations/widgets/nav_menu.dart';
 import 'package:watok/features/videos/video_timeline_screen.dart';
@@ -37,6 +38,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false, // 키보드입력창 생성 시, 자동 높이 조절 X
       backgroundColor: _selectedIndex == 0 ? Colors.black : Colors.white,
       body: Stack(
         children: [
@@ -47,11 +49,25 @@ class _MainNavScreenState extends State<MainNavScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: Container(),
+            child: Container(
+              alignment: Alignment.center,
+              child: const ReadMoreText(
+                "items title",
+                colorClickableText: Colors.pink,
+                trimMode: TrimMode.Length,
+                trimLength: 5,
+                trimCollapsedText: '..더보기',
+                style: TextStyle(fontSize: 13),
+                trimExpandedText: ' Less',
+              ),
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: Container(),
+            child: Container(
+              alignment: Alignment.center,
+              child: const Text("test"),
+            ),
           ),
           Offstage(
             offstage: _selectedIndex != 4,

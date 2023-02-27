@@ -4,6 +4,7 @@ import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
+import 'package:watok/features/videos/widgets/video_comments.dart';
 import 'package:watok/features/videos/widgets/video_icon.dart';
 
 class VideoPostScreen extends StatefulWidget {
@@ -48,8 +49,10 @@ class _VideoPostScreenState extends State<VideoPostScreen>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
-    // 현재 영상이 화면 전체를 덮고 있고, 끝났으면 다음 영상을 재생
-    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+    // 현재 영상이 화면 전체를 덮고 있고, 일시정지 상태가 아니며, 영상이 멈춰 있으면 재생
+    if (info.visibleFraction == 1 &&
+        !_isClick &&
+        !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
   }
@@ -66,6 +69,23 @@ class _VideoPostScreenState extends State<VideoPostScreen>
     setState(() {
       _isClick = !_isClick;
     });
+  }
+
+  // 댓글창 아이콘 클릭했을 때
+  void _onCommentsClick(BuildContext context) async {
+    // 영상 멈추기
+    if (_videoPlayerController.value.isPlaying) {
+      _onPlayStop();
+    }
+    // 댓글창 보여주기
+    await showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true, // 댓글창의 높이를 바꾸기 위해
+      context: context,
+      builder: (context) => const VideoComments(),
+    );
+    // 댓글창 닫으면 영상 재생
+    _onPlayStop();
   }
 
   @override
@@ -169,7 +189,13 @@ class _VideoPostScreenState extends State<VideoPostScreen>
                   "제목이 들어가야죠",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: Sizes.size16,
+                    fontSize: Sizes.size18,
+                    shadows: <Shadow>[
+                      Shadow(
+                        blurRadius: Sizes.size6,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ],
                   ),
                 ),
                 Gaps.v10,
@@ -179,36 +205,45 @@ class _VideoPostScreenState extends State<VideoPostScreen>
                     color: Colors.white,
                     fontSize: Sizes.size16,
                     fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                    shadows: <Shadow>[
+                      Shadow(
+                        blurRadius: Sizes.size4,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
+          // 📕 아이콘들
           Positioned(
             bottom: 40,
             right: 15,
             child: Column(
-              children: const [
+              children: [
                 CircleAvatar(
                   maxRadius: Sizes.size28,
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  foregroundImage: const NetworkImage(
                       "https://avatars.githubusercontent.com/u/79440384"),
-                  child: Text("닉넴"),
                 ),
                 Gaps.v32,
-                VideoIcon(
+                const VideoIcon(
                   icon: FontAwesomeIcons.solidHeart,
                   text: "3.3M",
                 ),
                 Gaps.v24,
-                VideoIcon(
-                  icon: FontAwesomeIcons.solidCommentDots,
-                  text: "22",
+                GestureDetector(
+                  onTap: () => _onCommentsClick(context),
+                  child: const VideoIcon(
+                    icon: FontAwesomeIcons.solidCommentDots,
+                    text: "22",
+                  ),
                 ),
                 Gaps.v24,
-                VideoIcon(
+                const VideoIcon(
                   icon: FontAwesomeIcons.share,
                   text: "Share",
                 ),
