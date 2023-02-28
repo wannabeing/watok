@@ -12,6 +12,7 @@ class VideoComments extends StatefulWidget {
 
 class _VideoCommentsState extends State<VideoComments> {
   bool _isWriting = false; // 입력창 활성화 여부
+  final ScrollController _scrollController = ScrollController();
 
   // 댓글창 닫기 함수
   void _onCommentsClosed() {
@@ -73,53 +74,59 @@ class _VideoCommentsState extends State<VideoComments> {
             body: Stack(
               children: [
                 // 📕 댓글 아이콘,텍스트,하트아이콘
-                ListView.separated(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: Sizes.size10,
-                    horizontal: Sizes.size16,
-                  ),
-                  separatorBuilder: (context, index) => Gaps.v20,
-                  itemBuilder: (context, index) => Container(
-                      child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const CircleAvatar(
-                        child: Text("A"),
-                      ),
-                      Gaps.h10,
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Anonymous",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: Sizes.size14,
-                                color: Colors.grey.shade500,
-                              ),
-                            ),
-                            Gaps.v4,
-                            const Text("댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다."),
-                          ],
+                Scrollbar(
+                  controller: _scrollController,
+                  child: ListView.separated(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.only(
+                      top: Sizes.size10,
+                      bottom: Sizes.size96 + Sizes.size10,
+                      left: Sizes.size16,
+                      right: Sizes.size16,
+                    ),
+                    separatorBuilder: (context, index) => Gaps.v20,
+                    itemBuilder: (context, index) => Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const CircleAvatar(
+                          child: Text("A"),
                         ),
-                      ),
-                      Gaps.h10,
-                      Column(
-                        children: [
-                          Gaps.v20,
-                          FaIcon(FontAwesomeIcons.heart,
-                              color: Colors.grey.shade500),
-                          Gaps.v4,
-                          Text(
-                            "42",
-                            style: TextStyle(color: Colors.grey.shade500),
+                        Gaps.h10,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Anonymous",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Sizes.size14,
+                                  color: Colors.grey.shade500,
+                                ),
+                              ),
+                              Gaps.v4,
+                              const Text(
+                                  "댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다."),
+                            ],
                           ),
-                        ],
-                      )
-                    ],
-                  )),
-                  itemCount: 10,
+                        ),
+                        Gaps.h10,
+                        Column(
+                          children: [
+                            Gaps.v20,
+                            FaIcon(FontAwesomeIcons.heart,
+                                color: Colors.grey.shade500),
+                            Gaps.v4,
+                            Text(
+                              "42",
+                              style: TextStyle(color: Colors.grey.shade500),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    itemCount: 10,
+                  ),
                 ),
                 // 📕 댓글 입력창
                 Positioned(

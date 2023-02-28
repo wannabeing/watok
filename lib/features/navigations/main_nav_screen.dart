@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:readmore/readmore.dart';
 import 'package:watok/features/navigations/widgets/nav_create_video_btn.dart';
 import 'package:watok/features/navigations/widgets/nav_menu.dart';
+import 'package:watok/features/search/search_screen.dart';
 import 'package:watok/features/videos/video_timeline_screen.dart';
 
 import '../../constants/gaps.dart';
@@ -16,7 +16,7 @@ class MainNavScreen extends StatefulWidget {
 }
 
 class _MainNavScreenState extends State<MainNavScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   // NAV바 이동 함수
   void _onTap(int index) {
@@ -51,15 +51,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
             offstage: _selectedIndex != 1,
             child: Container(
               alignment: Alignment.center,
-              child: const ReadMoreText(
-                "items title",
-                colorClickableText: Colors.pink,
-                trimMode: TrimMode.Length,
-                trimLength: 5,
-                trimCollapsedText: '..더보기',
-                style: TextStyle(fontSize: 13),
-                trimExpandedText: ' Less',
-              ),
+              child: const SearchScreen(),
             ),
           ),
           Offstage(
@@ -76,7 +68,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.black,
+        color: _selectedIndex == 0 ? Colors.black : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.size18),
           child: Row(
@@ -88,6 +80,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 selectedIcon: FontAwesomeIcons.house,
                 icon: FontAwesomeIcons.house,
                 onTap: () => _onTap(0),
+                selectedIndex: _selectedIndex,
               ),
               NavMenu(
                 iconText: "검색",
@@ -95,11 +88,14 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 selectedIcon: FontAwesomeIcons.solidCompass,
                 icon: FontAwesomeIcons.compass,
                 onTap: () => _onTap(1),
+                selectedIndex: _selectedIndex,
               ),
               Gaps.h24,
               GestureDetector(
                 onTap: _onCreateVideo,
-                child: const NavCreateVideoButton(),
+                child: NavCreateVideoButton(
+                  isInverted: _selectedIndex != 0, // 홈이 아닐때만 invert
+                ),
               ), // 비디오 생성 버튼
               Gaps.h24,
               NavMenu(
@@ -108,6 +104,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 selectedIcon: FontAwesomeIcons.solidMessage,
                 icon: FontAwesomeIcons.message,
                 onTap: () => _onTap(3),
+                selectedIndex: _selectedIndex,
               ),
               NavMenu(
                 iconText: "마이페이지",
@@ -115,6 +112,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 selectedIcon: FontAwesomeIcons.solidUser,
                 icon: FontAwesomeIcons.user,
                 onTap: () => _onTap(4),
+                selectedIndex: _selectedIndex,
               ),
             ],
           ),

@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFFE9435A),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.black,
+        ),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           backgroundColor: Colors.white,

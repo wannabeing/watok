@@ -4,7 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../constants/sizes.dart';
 
 class NavCreateVideoButton extends StatelessWidget {
-  const NavCreateVideoButton({super.key});
+  const NavCreateVideoButton({
+    super.key,
+    required this.isInverted,
+  });
+
+  final bool isInverted;
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +54,15 @@ class NavCreateVideoButton extends StatelessWidget {
             horizontal: Sizes.size10,
           ),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isInverted ? Colors.black : Colors.white,
             borderRadius: BorderRadius.circular(
               Sizes.size10,
             ),
           ),
-          child: const Center(
+          child: Center(
             child: FaIcon(
               FontAwesomeIcons.plus,
-              color: Colors.black,
+              color: isInverted ? Colors.white : Colors.black,
               size: Sizes.size20,
             ),
           ),

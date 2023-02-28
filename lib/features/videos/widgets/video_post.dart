@@ -55,10 +55,16 @@ class _VideoPostScreenState extends State<VideoPostScreen>
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
+    // 다른 화면전환을 했는데도, 영상이 재생 중이면 영상정지
+    if (info.visibleFraction == 0 && _videoPlayerController.value.isPlaying) {
+      _onPlayStop();
+    }
   }
 
   // 비디오 실행/정지 함수
   void _onPlayStop() {
+    if (!mounted) return;
+
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
       _animationController.reverse();
@@ -190,12 +196,6 @@ class _VideoPostScreenState extends State<VideoPostScreen>
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: Sizes.size18,
-                    shadows: <Shadow>[
-                      Shadow(
-                        blurRadius: Sizes.size6,
-                        color: Color.fromARGB(255, 0, 0, 0),
-                      ),
-                    ],
                   ),
                 ),
                 Gaps.v10,

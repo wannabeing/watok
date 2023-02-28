@@ -13,6 +13,7 @@ class NavMenu extends StatelessWidget {
     required this.icon,
     required this.onTap,
     required this.selectedIcon,
+    required this.selectedIndex,
   });
 
   final String iconText;
@@ -20,6 +21,7 @@ class NavMenu extends StatelessWidget {
   final IconData icon;
   final IconData selectedIcon;
   final Function onTap;
+  final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class NavMenu extends StatelessWidget {
           onTap(),
         },
         child: Container(
-          color: Colors.black,
+          color: selectedIndex == 0 ? Colors.black : Colors.white,
           child: AnimatedOpacity(
             duration: const Duration(
               milliseconds: 200,
@@ -41,13 +43,13 @@ class NavMenu extends StatelessWidget {
               children: [
                 FaIcon(
                   isSelected ? selectedIcon : icon,
-                  color: Colors.white,
+                  color: selectedIndex == 0 ? Colors.white : Colors.black,
                 ),
                 Gaps.v10,
                 Text(
                   iconText,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: selectedIndex == 0 ? Colors.white : Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: Sizes.size10,
                   ),
