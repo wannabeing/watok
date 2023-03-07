@@ -85,6 +85,7 @@ class _VideoCommentsState extends State<VideoComments> {
                       right: Sizes.size16,
                     ),
                     separatorBuilder: (context, index) => Gaps.v20,
+                    itemCount: 10,
                     itemBuilder: (context, index) => Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -122,10 +123,9 @@ class _VideoCommentsState extends State<VideoComments> {
                               style: TextStyle(color: Colors.grey.shade500),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
-                    itemCount: 10,
                   ),
                 ),
                 // 📕 댓글 입력창
