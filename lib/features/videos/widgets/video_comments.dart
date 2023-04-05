@@ -20,7 +20,7 @@ class _VideoCommentsState extends State<VideoComments> {
   }
 
   // 댓글창 Body 클릭 함수
-  void __onCommentsBodyClick() {
+  void _onCommentsBodyClick() {
     // 댓글 입력 중에 Body클릭시, 입력창 포커스 해제
     FocusScope.of(context).unfocus();
     // 입력창 상태 비활성화
@@ -53,7 +53,7 @@ class _VideoCommentsState extends State<VideoComments> {
       color: Theme.of(context).primaryColor,
       edgeOffset: 20,
       child: GestureDetector(
-        onTap: __onCommentsBodyClick,
+        onTap: _onCommentsBodyClick,
         child: Container(
           height: userDeviceSize.height * 0.8,
           clipBehavior: Clip.hardEdge,
@@ -182,13 +182,13 @@ class _VideoCommentsState extends State<VideoComments> {
                                         Gaps.h10,
                                         if (_isWriting)
                                           GestureDetector(
-                                            onTap: __onCommentsBodyClick,
+                                            onTap: _onCommentsBodyClick,
                                             child: FaIcon(
                                               FontAwesomeIcons.circleArrowUp,
                                               color: Theme.of(context)
                                                   .primaryColor,
                                             ),
-                                          )
+                                          ),
                                       ],
                                     ),
                                   ),
