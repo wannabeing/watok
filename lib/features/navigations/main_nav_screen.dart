@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/features/message/message_screen.dart';
+import 'package:watok/features/mypage/mypage_screen.dart';
 import 'package:watok/features/navigations/widgets/nav_create_video_btn.dart';
 import 'package:watok/features/navigations/widgets/nav_menu.dart';
 import 'package:watok/features/search/search_screen.dart';
@@ -17,7 +18,7 @@ class MainNavScreen extends StatefulWidget {
 }
 
 class _MainNavScreenState extends State<MainNavScreen> {
-  int _selectedIndex = 3;
+  int _selectedIndex = 4;
 
   // NAV바 이동 함수
   void _onTap(int index) {
@@ -64,7 +65,10 @@ class _MainNavScreenState extends State<MainNavScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: Container(),
+            child: Container(
+              alignment: Alignment.center,
+              child: const MypageScreen(),
+            ),
           ),
         ],
       ),

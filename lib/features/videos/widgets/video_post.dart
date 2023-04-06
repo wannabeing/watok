@@ -49,6 +49,9 @@ class _VideoPostScreenState extends State<VideoPostScreen>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    // 위젯이 마운트되지 않았다면 아무작업도 하지 않음
+    if (!mounted) return;
+
     // 현재 영상이 화면 전체를 덮고 있고, 일시정지 상태가 아니며, 영상이 멈춰 있으면 재생
     if (info.visibleFraction == 1 &&
         !_isClick &&
