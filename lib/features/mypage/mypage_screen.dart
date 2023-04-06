@@ -4,6 +4,7 @@ import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/mypage/widgets/mypage_userinfo.dart';
 import 'package:watok/features/mypage/widgets/persistent_tabbar.dart';
+import 'package:watok/features/settings/settings_screen.dart';
 
 class MypageScreen extends StatefulWidget {
   const MypageScreen({super.key});
@@ -13,6 +14,14 @@ class MypageScreen extends StatefulWidget {
 }
 
 class _MypageScreenState extends State<MypageScreen> {
+  void _onPressedGear() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SettingsScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,7 +40,7 @@ class _MypageScreenState extends State<MypageScreen> {
                     iconSize: Sizes.size20,
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: _onPressedGear,
                     icon: const FaIcon(FontAwesomeIcons.gear),
                     iconSize: Sizes.size20,
                   ),

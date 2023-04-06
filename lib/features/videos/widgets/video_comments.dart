@@ -14,11 +14,6 @@ class _VideoCommentsState extends State<VideoComments> {
   bool _isWriting = false; // 입력창 활성화 여부
   final ScrollController _scrollController = ScrollController();
 
-  // 댓글창 닫기 함수
-  void _onCommentsClosed() {
-    Navigator.of(context).pop();
-  }
-
   // 댓글창 Body 클릭 함수
   void _onCommentsBodyClick() {
     // 댓글 입력 중에 Body클릭시, 입력창 포커스 해제
@@ -64,11 +59,8 @@ class _VideoCommentsState extends State<VideoComments> {
             appBar: AppBar(
               backgroundColor: Colors.grey.shade50,
               title: const Text("23 comments"),
-              actions: [
-                IconButton(
-                  onPressed: _onCommentsClosed,
-                  icon: const FaIcon(FontAwesomeIcons.xmark),
-                ),
+              actions: const [
+                CloseButton(),
               ],
             ),
             body: Stack(
