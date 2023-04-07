@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:watok/constants/width_types.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,14 +21,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       lastDate: DateTime(2024),
       builder: (context, child) {
         return Theme(
-            data: ThemeData(
-              appBarTheme: AppBarTheme(
-                iconTheme: const IconThemeData(),
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Colors.white,
-              ),
+          data: ThemeData(
+            appBarTheme: AppBarTheme(
+              iconTheme: const IconThemeData(),
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Colors.white,
             ),
-            child: child!);
+          ),
+          child: child!,
+        );
       },
     );
     print(reservation);
@@ -97,29 +99,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
         title: const Text("설정"),
         elevation: 1,
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: const Text("알림 테스트창 (IOS)"),
-            onTap: _onTapAlertIOS,
+      body: Align(
+        alignment: Alignment.center,
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: WidthTypes.sm),
+          child: ListView(
+            children: [
+              ListTile(
+                title: const Text("알림 테스트창 (IOS)"),
+                onTap: _onTapAlertIOS,
+              ),
+              ListTile(
+                title: const Text("알림 테스트창 (Android)"),
+                onTap: _onTapAlertAndroid,
+              ),
+              SwitchListTile.adaptive(
+                  title: const Text("스위치 테스트"),
+                  subtitle: const Text("서브 타이틀"),
+                  value: _switchVal,
+                  onChanged: _onChangedSwitch),
+              ListTile(
+                onTap: _onTestReservation,
+                title: const Text("날짜예약 테스트 창"),
+              ),
+              const AboutListTile(
+                applicationName: "라이센스 테스트 창",
+              ),
+            ],
           ),
-          ListTile(
-            title: const Text("알림 테스트창 (Android)"),
-            onTap: _onTapAlertAndroid,
-          ),
-          SwitchListTile.adaptive(
-              title: const Text("스위치 테스트"),
-              subtitle: const Text("서브 타이틀"),
-              value: _switchVal,
-              onChanged: _onChangedSwitch),
-          ListTile(
-            onTap: _onTestReservation,
-            title: const Text("날짜예약 테스트 창"),
-          ),
-          const AboutListTile(
-            applicationName: "라이센스 테스트 창",
-          ),
-        ],
+        ),
       ),
     );
   }

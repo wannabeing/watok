@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
+import 'package:watok/constants/width_types.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({super.key});
@@ -103,7 +104,7 @@ class _VideoCommentsState extends State<VideoComments> {
                             ],
                           ),
                         ),
-                        Gaps.h10,
+                        Gaps.h5,
                         Column(
                           children: [
                             Gaps.v20,
@@ -123,7 +124,7 @@ class _VideoCommentsState extends State<VideoComments> {
                 // 📕 댓글 입력창
                 Positioned(
                   bottom: 0,
-                  width: userDeviceSize.width,
+                  width: WidthTypes.sm,
                   child: BottomAppBar(
                     color: Colors.white,
                     child: Padding(

@@ -15,6 +15,10 @@ class VideoIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isNull = false;
+    if (text == "null") {
+      isNull = true;
+    }
     return Column(
       children: [
         FaIcon(
@@ -23,19 +27,20 @@ class VideoIcon extends StatelessWidget {
           size: Sizes.size40,
         ),
         Gaps.v5,
-        Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            shadows: <Shadow>[
-              Shadow(
-                blurRadius: Sizes.size6,
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-            ],
+        if (!isNull)
+          Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              shadows: <Shadow>[
+                Shadow(
+                  blurRadius: Sizes.size10,
+                  color: Color.fromARGB(255, 0, 0, 0),
+                ),
+              ],
+            ),
           ),
-        ),
       ],
     );
   }

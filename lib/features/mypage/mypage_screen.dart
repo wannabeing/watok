@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
@@ -5,6 +6,8 @@ import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/mypage/widgets/mypage_userinfo.dart';
 import 'package:watok/features/mypage/widgets/persistent_tabbar.dart';
 import 'package:watok/features/settings/settings_screen.dart';
+
+import '../../constants/width_types.dart';
 
 class MypageScreen extends StatefulWidget {
   const MypageScreen({super.key});
@@ -24,6 +27,7 @@ class _MypageScreenState extends State<MypageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaWidth = MediaQuery.of(context).size.width;
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -31,7 +35,6 @@ class _MypageScreenState extends State<MypageScreen> {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
-                elevation: 1.0,
                 title: const Text("혁잉"),
                 actions: [
                   IconButton(
@@ -76,7 +79,7 @@ class _MypageScreenState extends State<MypageScreen> {
                     ),
                     Gaps.v20,
                     SizedBox(
-                      height: Sizes.size48,
+                      height: Sizes.size52,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
@@ -102,10 +105,11 @@ class _MypageScreenState extends State<MypageScreen> {
                     FractionallySizedBox(
                       widthFactor: 0.7, // 부모의 너비 70%만큼으로 설정
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Flexible(
                             fit: FlexFit.tight,
-                            flex: 3,
+                            flex: kIsWeb ? 1 : 3,
                             child: Container(
                               padding: const EdgeInsets.symmetric(
                                 vertical: Sizes.size14,
@@ -120,7 +124,8 @@ class _MypageScreenState extends State<MypageScreen> {
                                 '팔로우하기',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: Sizes.size16,
+                                  fontSize:
+                                      kIsWeb ? Sizes.size12 : Sizes.size16,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -217,8 +222,12 @@ class _MypageScreenState extends State<MypageScreen> {
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: EdgeInsets.zero,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: mediaWidth > WidthTypes.md
+                      ? 5
+                      : mediaWidth > 400
+                          ? 3
+                          : 1,
                   crossAxisSpacing: Sizes.size3,
                   mainAxisSpacing: Sizes.size3,
                   childAspectRatio: 9 / 12,

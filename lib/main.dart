@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:watok/features/navigations/main_nav_screen.dart';
 
 import 'constants/sizes.dart';
 
-void main() {
+void main() async {
+  // 디바이스 세로방향 고정
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
   runApp(const MyApp());
 }
 
