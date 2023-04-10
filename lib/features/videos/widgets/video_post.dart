@@ -139,13 +139,12 @@ class _VideoPostScreenState extends State<VideoPostScreen>
   @override
   Widget build(BuildContext context) {
     final mediaWidth = MediaQuery.of(context).size.width;
-    print("MQ: $mediaWidth");
+
     return VisibilityDetector(
       key: Key("${widget.index}"),
       onVisibilityChanged: _onVisibilityChanged,
       child: LayoutBuilder(
         builder: (context, constraints) {
-          print("Layout: ${constraints.maxWidth}");
           return Stack(
             children: [
               // 📕 영상

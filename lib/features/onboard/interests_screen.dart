@@ -3,6 +3,7 @@ import 'package:watok/features/onboard/tt_screen.dart';
 import 'package:watok/features/onboard/widgets/interest_btn.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
+import '../../utils.dart';
 
 const interests = [
   "Daily Life",
@@ -151,17 +152,29 @@ class _InterestsScreenState extends State<InterestsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: isDarkTheme(context)
+              ? Colors.grey.shade900
+              : Colors.grey.shade100,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 5,
+              spreadRadius: 5,
+            ),
+          ],
+        ),
         child: Padding(
           padding: const EdgeInsets.only(
-            bottom: Sizes.size52,
-            top: Sizes.size24,
+            bottom: Sizes.size48,
+            top: Sizes.size32,
             left: Sizes.size24,
             right: Sizes.size24,
           ),
           child: Container(
             padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size20,
+              vertical: Sizes.size14,
             ),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,

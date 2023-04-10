@@ -1,6 +1,6 @@
 # watok
 
-Flutter 3.3.10
+Flutter 3.7.10
 Dart 2.18.6
 
 A new Flutter project.

@@ -41,7 +41,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     setState(() {
       _switchVal = newSwitchVal;
-      print(_switchVal);
     });
   }
 

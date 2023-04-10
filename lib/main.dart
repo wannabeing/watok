@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       title: '와톡',
       themeMode: ThemeMode.system,
       theme: ThemeData(
+        useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFFE9435A),
         textSelectionTheme: const TextSelectionThemeData(
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
             fontSize: Sizes.size18,
             fontWeight: FontWeight.w600,
           ),
+          surfaceTintColor: Colors.white,
         ),
         tabBarTheme: const TabBarTheme(
           labelColor: Color(0xFFE9435A),
@@ -59,6 +61,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       darkTheme: ThemeData(
+        useMaterial3: true,
         scaffoldBackgroundColor: Colors.black,
         primaryColor: const Color(0xFFE9435A),
         brightness: Brightness.dark,
@@ -75,6 +78,7 @@ class MyApp extends StatelessWidget {
             fontSize: Sizes.size18,
             fontWeight: FontWeight.w600,
           ),
+          surfaceTintColor: Colors.grey.shade900,
         ),
         tabBarTheme: const TabBarTheme(
           labelColor: Color(0xFFE9435A),

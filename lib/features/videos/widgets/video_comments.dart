@@ -131,11 +131,23 @@ class _VideoCommentsState extends State<VideoComments> {
                 Positioned(
                   bottom: 0,
                   width: kIsWeb ? WidthTypes.sm : userDeviceSize.width,
-                  child: BottomAppBar(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 5,
+                          spreadRadius: 5,
+                        ),
+                      ],
+                      color: Theme.of(context).bottomAppBarTheme.color,
+                    ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Sizes.size16,
-                        vertical: Sizes.size10,
+                      padding: const EdgeInsets.only(
+                        left: Sizes.size16,
+                        right: Sizes.size16,
+                        top: Sizes.size24,
+                        bottom: Sizes.size48,
                       ),
                       child: Row(
                         children: [

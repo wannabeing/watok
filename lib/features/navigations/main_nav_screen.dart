@@ -75,12 +75,26 @@ class _MainNavScreenState extends State<MainNavScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: _selectedIndex == 0 || isDarkTheme(context)
-            ? Colors.black
-            : Colors.white,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 5,
+              spreadRadius: 5,
+            ),
+          ],
+          color: _selectedIndex == 0 || isDarkTheme(context)
+              ? Colors.black
+              : Colors.white,
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(Sizes.size18),
+          padding: const EdgeInsets.only(
+            top: Sizes.size24,
+            bottom: Sizes.size32,
+            left: Sizes.size18,
+            right: Sizes.size18,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

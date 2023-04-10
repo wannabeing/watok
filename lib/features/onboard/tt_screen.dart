@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:watok/features/navigations/main_nav_screen.dart';
 import 'package:watok/features/onboard/widgets/tt_first_widget.dart';
 import 'package:watok/features/onboard/widgets/tt_second_widget.dart';
+import 'package:watok/utils.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -24,7 +25,6 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   // 🚀 손으로 드래그 시작했을 때 실행하는 함수
   void _onDragStart(DragUpdateDetails details) {
-    print("start");
     // 왼-오른쪽으로 드래그
     if (details.delta.dx > 0) {
       setState(() {
@@ -84,8 +84,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
               ),
             ),
           ),
-          bottomNavigationBar: BottomAppBar(
-              elevation: 0,
+          bottomNavigationBar: Container(
+              padding: const EdgeInsets.only(
+                top: Sizes.size32,
+                bottom: Sizes.size48,
+              ),
               child: SizedBox(
                 height: Sizes.size96,
                 child: Column(
@@ -104,7 +107,12 @@ class _TutorialScreenState extends State<TutorialScreen> {
                       child: CupertinoButton(
                         onPressed: _onStartApp,
                         color: Theme.of(context).primaryColor,
-                        child: const Text("이해했어요!"),
+                        child: Text(
+                          "이해했어요!",
+                          style: TextStyle(
+                            color: isDarkTheme(context) ? Colors.white : null,
+                          ),
+                        ),
                       ),
                     ),
                   ],

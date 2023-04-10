@@ -61,7 +61,9 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
+        padding: const EdgeInsets.symmetric(
+          horizontal: Sizes.size36,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -111,7 +113,11 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(
+          top: Sizes.size32,
+          bottom: Sizes.size48,
+        ),
         child: SizedBox(
           height: 300,
           child: CupertinoDatePicker(

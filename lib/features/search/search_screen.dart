@@ -150,6 +150,7 @@ class _SearchScreenState extends State<SearchScreen>
                             style: const TextStyle(
                               fontSize: Sizes.size18,
                               fontWeight: FontWeight.bold,
+                              height: 1.2,
                             ),
                           ),
                           Gaps.v5,

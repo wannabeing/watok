@@ -81,7 +81,7 @@ class _MypageScreenState extends State<MypageScreen> {
                       ),
                       Gaps.v20,
                       SizedBox(
-                        height: Sizes.size52,
+                        height: Sizes.size64,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
