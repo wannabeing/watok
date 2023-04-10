@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/constants/width_types.dart';
+import 'package:watok/utils.dart';
 
 import '../../constants/gaps.dart';
 
@@ -67,6 +68,9 @@ class _SearchScreenState extends State<SearchScreen>
               maxWidth: WidthTypes.sm,
             ),
             child: CupertinoSearchTextField(
+              style: TextStyle(
+                color: isDarkTheme(context) ? Colors.white : null,
+              ),
               padding: const EdgeInsets.symmetric(
                 vertical: Sizes.size14,
                 horizontal: Sizes.size10,
@@ -84,14 +88,8 @@ class _SearchScreenState extends State<SearchScreen>
               horizontal: Sizes.size16,
             ),
             isScrollable: true,
-            labelColor: Theme.of(context).primaryColor,
-            unselectedLabelColor: Colors.black,
-            indicatorColor: Theme.of(context).primaryColor,
-            indicatorSize: TabBarIndicatorSize.label,
-            labelStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: Sizes.size16,
-            ),
+            labelColor: Theme.of(context).tabBarTheme.labelColor,
+            indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
             tabs: [
               for (var tab in tabs)
                 Tab(
@@ -159,7 +157,9 @@ class _SearchScreenState extends State<SearchScreen>
                             DefaultTextStyle(
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade600,
+                                color: isDarkTheme(context)
+                                    ? null
+                                    : Colors.grey.shade600,
                               ),
                               child: Row(
                                 children: [
@@ -179,10 +179,12 @@ class _SearchScreenState extends State<SearchScreen>
                                     ),
                                   ),
                                   Gaps.h5,
-                                  FaIcon(
-                                    FontAwesomeIcons.heart,
-                                    size: Sizes.size20,
-                                    color: Colors.grey.shade600,
+                                  const Opacity(
+                                    opacity: 0.7,
+                                    child: FaIcon(
+                                      FontAwesomeIcons.heart,
+                                      size: Sizes.size20,
+                                    ),
                                   ),
                                   Gaps.h5,
                                   const Text("2.5M"),

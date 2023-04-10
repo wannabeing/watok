@@ -48,13 +48,15 @@ class SignUpScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   Gaps.v20,
-                  const Text(
-                    "와톡은 수많은 대출고민을 해결하고 있어요 와톡은 수많은 투자고민을 해결하고 있어요",
-                    style: TextStyle(
-                      fontSize: Sizes.size16,
-                      color: Colors.black45,
+                  const Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      "와톡은 수많은 대출고민을 해결하고 있어요 와톡은 수많은 투자고민을 해결하고 있어요",
+                      style: TextStyle(
+                        fontSize: Sizes.size16,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                   Gaps.v40,
                   AuthButton(
@@ -73,7 +75,6 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: BottomAppBar(
-            color: Colors.grey.shade100,
             elevation: 2,
             child: Padding(
               padding: const EdgeInsets.symmetric(

@@ -128,11 +128,13 @@ class _InterestsScreenState extends State<InterestsScreen> {
                   ),
                 ),
                 Gaps.v20,
-                Text(
-                  "더 나은 비디오를 추천해드리겠습니다.",
-                  style: TextStyle(
-                    fontSize: Sizes.size20,
-                    color: Colors.grey.shade700,
+                const Opacity(
+                  opacity: 0.7,
+                  child: Text(
+                    "더 나은 비디오를 추천해드리겠습니다.",
+                    style: TextStyle(
+                      fontSize: Sizes.size20,
+                    ),
                   ),
                 ),
                 Gaps.v64,

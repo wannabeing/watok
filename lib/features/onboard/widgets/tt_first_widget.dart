@@ -12,9 +12,9 @@ class TutorialFirstWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: const [
         Gaps.v72,
-        const Text(
+        Text(
           "튜토리얼 페이지1",
           style: TextStyle(
             fontSize: Sizes.size36,
@@ -22,11 +22,13 @@ class TutorialFirstWidget extends StatelessWidget {
           ),
         ),
         Gaps.v16,
-        Text(
-          "상세 설명란입니다.상세 설명란입니다.상세 설명란입니다.상세 설명란입니다.상세 설명란입니다.",
-          style: TextStyle(
-            fontSize: Sizes.size20,
-            color: Colors.grey.shade700,
+        Opacity(
+          opacity: 0.7,
+          child: Text(
+            "상세 설명란입니다.상세 설명란입니다.상세 설명란입니다.상세 설명란입니다.상세 설명란입니다.",
+            style: TextStyle(
+              fontSize: Sizes.size20,
+            ),
           ),
         ),
       ],

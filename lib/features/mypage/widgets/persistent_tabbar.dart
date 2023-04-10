@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:watok/utils.dart';
 
 import '../../../constants/sizes.dart';
 
@@ -9,18 +10,19 @@ class MyPagePersistentTabBar extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).appBarTheme.backgroundColor,
         border: Border.symmetric(
           horizontal: BorderSide(
             width: 1,
-            color: Colors.grey.shade300,
+            color: isDarkTheme(context)
+                ? Colors.grey.shade900
+                : Colors.grey.shade300,
           ),
         ),
       ),
       child: TabBar(
         splashFactory: NoSplash.splashFactory,
         labelColor: Theme.of(context).primaryColor,
-        unselectedLabelColor: Colors.black,
         labelPadding: const EdgeInsets.symmetric(vertical: Sizes.size10),
         indicatorSize: TabBarIndicatorSize.label,
         indicatorColor: Theme.of(context).primaryColor,

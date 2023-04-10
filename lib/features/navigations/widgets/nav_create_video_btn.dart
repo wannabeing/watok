@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constants/sizes.dart';
+import '../../../utils.dart';
 
 class NavCreateVideoButton extends StatelessWidget {
   const NavCreateVideoButton({
@@ -13,6 +14,7 @@ class NavCreateVideoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkTheme(context);
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -54,7 +56,7 @@ class NavCreateVideoButton extends StatelessWidget {
             horizontal: Sizes.size10,
           ),
           decoration: BoxDecoration(
-            color: isInverted ? Colors.black : Colors.white,
+            color: !isInverted || isDark ? Colors.white : Colors.black,
             borderRadius: BorderRadius.circular(
               Sizes.size10,
             ),
@@ -62,7 +64,7 @@ class NavCreateVideoButton extends StatelessWidget {
           child: Center(
             child: FaIcon(
               FontAwesomeIcons.plus,
-              color: isInverted ? Colors.white : Colors.black,
+              color: !isInverted || isDark ? Colors.black : Colors.white,
               size: Sizes.size20,
             ),
           ),

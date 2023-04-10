@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 
 import '../../constants/sizes.dart';
+import '../../utils.dart';
 
 class DmDetailScreen extends StatefulWidget {
   const DmDetailScreen({
@@ -145,17 +146,16 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
               bottom: 0,
               width: MediaQuery.of(context).size.width,
               child: BottomAppBar(
-                color: Colors.grey.shade100,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.size16,
-                    vertical: Sizes.size10,
+                    vertical: Sizes.size32,
                   ),
                   child: Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: Sizes.size40,
+                          height: Sizes.size52,
                           child: TextField(
                             onTap: _onTapInput,
                             expands: true,
@@ -173,7 +173,9 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
                                   children: [
                                     FaIcon(
                                       FontAwesomeIcons.faceSmile,
-                                      color: Colors.grey.shade900,
+                                      color: isDarkTheme(context)
+                                          ? Colors.grey.shade300
+                                          : Colors.grey.shade900,
                                     ),
                                     Gaps.h10,
                                     if (_isWriting)
@@ -194,7 +196,9 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor: Colors.grey.shade200,
+                              fillColor: isDarkTheme(context)
+                                  ? Colors.grey.shade700
+                                  : Colors.grey.shade200,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: Sizes.size12,
                                 vertical: Sizes.size10,

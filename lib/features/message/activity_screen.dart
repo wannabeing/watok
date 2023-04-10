@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
+import 'package:watok/utils.dart';
 import '../../constants/sizes.dart';
 
 class ActivityScreen extends StatefulWidget {
@@ -134,31 +135,35 @@ class _ActivityScreenState extends State<ActivityScreen>
                       width: Sizes.size52,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
+                        color: isDarkTheme(context)
+                            ? Colors.grey.shade800
+                            : Colors.white,
                         border: Border.all(
-                            color: Colors.grey.shade400, width: Sizes.size2),
+                          color: Colors.grey.shade400,
+                          width: Sizes.size2,
+                        ),
                       ),
                       child: const Center(
                         child: FaIcon(
                           FontAwesomeIcons.bell,
-                          color: Colors.black,
                         ),
                       ),
                     ),
                     title: RichText(
                       text: TextSpan(
                         text: "업데이트 내용: ",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: Sizes.size16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: isDarkTheme(context)
+                              ? Colors.white
+                              : Colors.black,
                         ),
                         children: [
                           const TextSpan(
                             text: "삼각별과 세모가 추가되었습니다.",
                             style: TextStyle(
                               fontWeight: FontWeight.normal,
-                              color: Colors.black,
                             ),
                           ),
                           TextSpan(
@@ -175,7 +180,6 @@ class _ActivityScreenState extends State<ActivityScreen>
                     trailing: const FaIcon(
                       FontAwesomeIcons.chevronRight,
                       size: Sizes.size14,
-                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -193,9 +197,9 @@ class _ActivityScreenState extends State<ActivityScreen>
           SlideTransition(
             position: _offsetAnimation,
             child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: Theme.of(context).appBarTheme.backgroundColor,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(
                     Sizes.size16,
                   ),
@@ -211,9 +215,8 @@ class _ActivityScreenState extends State<ActivityScreen>
                     ListTile(
                       title: Row(
                         children: [
-                          FaIcon(
+                          Icon(
                             tab["icon"],
-                            color: Colors.black,
                             size: Sizes.size16,
                           ),
                           Gaps.h20,

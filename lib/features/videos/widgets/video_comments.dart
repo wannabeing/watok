@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/constants/width_types.dart';
+import 'package:watok/utils.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({super.key});
@@ -56,9 +58,10 @@ class _VideoCommentsState extends State<VideoComments> {
           decoration:
               BoxDecoration(borderRadius: BorderRadius.circular(Sizes.size16)),
           child: Scaffold(
-            backgroundColor: Colors.grey.shade50,
+            backgroundColor: isDarkTheme(context) ? null : Colors.grey.shade50,
             appBar: AppBar(
-              backgroundColor: Colors.grey.shade50,
+              backgroundColor:
+                  isDarkTheme(context) ? null : Colors.grey.shade50,
               title: const Text("23 comments"),
               actions: const [
                 CloseButton(),
@@ -82,8 +85,11 @@ class _VideoCommentsState extends State<VideoComments> {
                     itemBuilder: (context, index) => Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const CircleAvatar(
-                          child: Text("A"),
+                        CircleAvatar(
+                          backgroundColor: isDarkTheme(context)
+                              ? Colors.grey.shade800
+                              : null,
+                          child: const Text("A"),
                         ),
                         Gaps.h10,
                         Expanded(
@@ -124,9 +130,8 @@ class _VideoCommentsState extends State<VideoComments> {
                 // 📕 댓글 입력창
                 Positioned(
                   bottom: 0,
-                  width: WidthTypes.sm,
+                  width: kIsWeb ? WidthTypes.sm : userDeviceSize.width,
                   child: BottomAppBar(
-                    color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: Sizes.size16,
@@ -134,9 +139,12 @@ class _VideoCommentsState extends State<VideoComments> {
                       ),
                       child: Row(
                         children: [
-                          const CircleAvatar(
+                          CircleAvatar(
                             radius: 18,
-                            child: Text("A"),
+                            backgroundColor: isDarkTheme(context)
+                                ? Colors.grey.shade800
+                                : null,
+                            child: const Text("A"),
                           ),
                           Gaps.h10,
                           // 📕 input
@@ -160,17 +168,23 @@ class _VideoCommentsState extends State<VideoComments> {
                                       children: [
                                         FaIcon(
                                           FontAwesomeIcons.at,
-                                          color: Colors.grey.shade900,
+                                          color: isDarkTheme(context)
+                                              ? Colors.grey.shade300
+                                              : Colors.grey.shade900,
                                         ),
                                         Gaps.h10,
                                         FaIcon(
                                           FontAwesomeIcons.gift,
-                                          color: Colors.grey.shade900,
+                                          color: isDarkTheme(context)
+                                              ? Colors.grey.shade300
+                                              : Colors.grey.shade900,
                                         ),
                                         Gaps.h10,
                                         FaIcon(
                                           FontAwesomeIcons.faceSmile,
-                                          color: Colors.grey.shade900,
+                                          color: isDarkTheme(context)
+                                              ? Colors.grey.shade300
+                                              : Colors.grey.shade900,
                                         ),
                                         Gaps.h10,
                                         if (_isWriting)
@@ -192,7 +206,9 @@ class _VideoCommentsState extends State<VideoComments> {
                                     borderSide: BorderSide.none,
                                   ),
                                   filled: true,
-                                  fillColor: Colors.grey.shade200,
+                                  fillColor: isDarkTheme(context)
+                                      ? Colors.grey.shade700
+                                      : Colors.grey.shade200,
                                   contentPadding: const EdgeInsets.symmetric(
                                     horizontal: Sizes.size12,
                                     vertical: Sizes.size10,

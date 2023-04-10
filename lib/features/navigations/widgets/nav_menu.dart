@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:watok/utils.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
@@ -32,7 +33,9 @@ class NavMenu extends StatelessWidget {
           onTap(),
         },
         child: Container(
-          color: selectedIndex == 0 ? Colors.black : Colors.white,
+          color: selectedIndex == 0 || isDarkTheme(context)
+              ? Colors.black
+              : Colors.white,
           child: AnimatedOpacity(
             duration: const Duration(
               milliseconds: 200,
@@ -43,13 +46,17 @@ class NavMenu extends StatelessWidget {
               children: [
                 FaIcon(
                   isSelected ? selectedIcon : icon,
-                  color: selectedIndex == 0 ? Colors.white : Colors.black,
+                  color: selectedIndex == 0 || isDarkTheme(context)
+                      ? Colors.white
+                      : Colors.black,
                 ),
                 Gaps.v10,
                 Text(
                   iconText,
                   style: TextStyle(
-                    color: selectedIndex == 0 ? Colors.white : Colors.black,
+                    color: selectedIndex == 0 || isDarkTheme(context)
+                        ? Colors.white
+                        : Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: Sizes.size10,
                   ),

@@ -6,6 +6,7 @@ import 'package:watok/features/navigations/widgets/nav_create_video_btn.dart';
 import 'package:watok/features/navigations/widgets/nav_menu.dart';
 import 'package:watok/features/search/search_screen.dart';
 import 'package:watok/features/videos/video_timeline_screen.dart';
+import 'package:watok/utils.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
@@ -41,7 +42,9 @@ class _MainNavScreenState extends State<MainNavScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // 키보드입력창 생성 시, 자동 높이 조절 X
-      backgroundColor: _selectedIndex == 0 ? Colors.black : Colors.white,
+      backgroundColor: _selectedIndex == 0 || isDarkTheme(context)
+          ? Colors.black
+          : Colors.white,
       body: Stack(
         children: [
           Offstage(
@@ -73,7 +76,9 @@ class _MainNavScreenState extends State<MainNavScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: _selectedIndex == 0 ? Colors.black : Colors.white,
+        color: _selectedIndex == 0 || isDarkTheme(context)
+            ? Colors.black
+            : Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(Sizes.size18),
           child: Row(
