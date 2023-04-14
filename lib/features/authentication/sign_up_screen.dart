@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
+import 'package:watok/features/authentication/email_screen.dart';
 import 'package:watok/features/authentication/login_screen.dart';
-import 'package:watok/features/authentication/username_screen.dart';
 import 'package:watok/features/authentication/widgets/auth_button.dart';
 
 import '../../utils.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static String route = "/signup";
   const SignUpScreen({super.key});
 
   // 로그인 텍스트 클릭 시, 로그인 페이지 이동
   void _onClickLogin(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-    );
+    context.push(LoginScreen.route);
   }
 
+  // 이메일/애플계정 회원가입 페이지
   void _onClickEmail(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const UsernameScreen(),
-      ),
-    );
+    context.pushNamed(EmailScreen.route);
   }
 
   @override

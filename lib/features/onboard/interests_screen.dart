@@ -46,8 +46,26 @@ const interests = [
   "Home & Garden",
 ];
 
+// 로그인 폼으로부터 받은 파라미터
+class FormArgs {
+  final String username;
+  final String pw;
+
+  FormArgs({
+    required this.username,
+    required this.pw,
+  });
+}
+
 class InterestsScreen extends StatefulWidget {
-  const InterestsScreen({super.key});
+  static String route = "/interests";
+
+  final FormArgs form;
+
+  const InterestsScreen({
+    super.key,
+    required this.form,
+  });
 
   @override
   State<InterestsScreen> createState() => _InterestsScreenState();
@@ -97,6 +115,8 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String email = widget.form.username;
+
     return Scaffold(
       appBar: AppBar(
         title: AnimatedOpacity(
@@ -129,11 +149,11 @@ class _InterestsScreenState extends State<InterestsScreen> {
                   ),
                 ),
                 Gaps.v20,
-                const Opacity(
+                Opacity(
                   opacity: 0.7,
                   child: Text(
-                    "더 나은 비디오를 추천해드리겠습니다.",
-                    style: TextStyle(
+                    "더 나은 비디오를 추천해드리겠습니다. $email 님!",
+                    style: const TextStyle(
                       fontSize: Sizes.size20,
                     ),
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/loginform_screen.dart';
@@ -7,6 +8,7 @@ import 'package:watok/features/authentication/widgets/auth_button.dart';
 import 'package:watok/utils.dart';
 
 class LoginScreen extends StatelessWidget {
+  static String route = "/login";
   const LoginScreen({super.key});
 
   // 회원가입 텍스트 클릭 시, 회원가입 페이지 이동
@@ -14,12 +16,9 @@ class LoginScreen extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
+  // 로그인 폼 페이지 이동
   void _onClickEmail(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LoginFormScreen(),
-      ),
-    );
+    context.push(LoginFormScreen.route);
   }
 
   @override

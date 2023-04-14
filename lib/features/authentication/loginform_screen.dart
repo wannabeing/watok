@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
 import 'package:watok/features/onboard/interests_screen.dart';
 
@@ -6,6 +7,7 @@ import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 
 class LoginFormScreen extends StatefulWidget {
+  static String route = "/loginForm";
   const LoginFormScreen({super.key});
 
   @override
@@ -25,14 +27,24 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (isVal == true) {
       _formKey.currentState?.save();
 
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const InterestsScreen(),
+      // goRouter에서 파라미터 보내면서 페이지 이동
+      context.go(
+        InterestsScreen.route,
+        extra: FormArgs(
+          username: formData["email"]!,
+          pw: formData["pw"]!,
         ),
-        (route) => false,
-        // route에는 이전 화면들의 정보가 담겨 있음
-        // false: 이전 화면 모두 지우고 이동
       );
+
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //   arguments: FormArgs(
+      //     form: formData,
+      //   ), // formData 변수 전달
+      //   InterestsScreen.route,
+      //   (route) => false,
+      // route에는 이전 화면들의 정보가 담겨 있음
+      // false: 이전 화면 모두 지우고 이동
+      // );
     }
   }
 

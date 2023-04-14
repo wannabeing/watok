@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:watok/features/navigations/main_nav_screen.dart';
+import 'package:watok/router.dart';
 
 import 'constants/sizes.dart';
 
@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: goRouter,
       title: '와톡',
       themeMode: ThemeMode.system,
       theme: ThemeData(
@@ -97,7 +98,6 @@ class MyApp extends StatelessWidget {
           color: Colors.grey.shade900,
         ),
       ),
-      home: const MainNavScreen(),
     );
   }
 }
