@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:watok/features/videos/video_preview_screen.dart';
 import 'package:watok/features/videos/video_recording_screen.dart';
 
 final goRouter = GoRouter(
@@ -6,6 +7,14 @@ final goRouter = GoRouter(
     GoRoute(
       path: "/",
       builder: (context, state) => const VideoRecordingScreen(),
+    ),
+    GoRoute(
+      path: VideoPreviewScreen.route,
+      builder: (context, state) {
+        return VideoPreviewScreen(
+          videoArgs: state.extra as VideoArgs,
+        );
+      },
     ),
     // GoRoute(
     //   path: SignUpScreen.route,
