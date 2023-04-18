@@ -39,7 +39,8 @@ class _PwScreenState extends State<PwScreen> {
   // 🚀 다음 클릭 함수
   void _onSumbit() {
     if (!_isPwValid() || !_isPwLengthValid()) return;
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => const BirthdayScreen(),
       ),

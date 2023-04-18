@@ -6,12 +6,14 @@ import '../../constants/sizes.dart';
 import '../../utils.dart';
 
 class DmDetailScreen extends StatefulWidget {
+  static const name = "dmDetail";
+  static const route = ":chatId";
+  final String chatId;
+
   const DmDetailScreen({
     super.key,
-    required this.index,
+    required this.chatId,
   });
-
-  final int index;
 
   @override
   State<DmDetailScreen> createState() => _DmDetailScreenState();
@@ -39,7 +41,7 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int index = widget.index; // 상속 받은 index 값
+    String chatId = widget.chatId;
 
     return Scaffold(
       appBar: AppBar(
@@ -72,7 +74,7 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
             ],
           ),
           title: Text(
-            "혁잉 ($index)",
+            "혁잉 ($chatId)",
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size18,
@@ -145,11 +147,12 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
             Positioned(
               bottom: 0,
               width: MediaQuery.of(context).size.width,
-              child: BottomAppBar(
+              child: Container(
+                color: Colors.grey.shade50,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.size16,
-                    vertical: Sizes.size32,
+                    vertical: Sizes.size36,
                   ),
                   child: Row(
                     children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:watok/features/navigations/main_nav_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:watok/common/widgets/navigations/main_nav_screen.dart';
 import 'package:watok/features/onboard/widgets/tt_first_widget.dart';
 import 'package:watok/features/onboard/widgets/tt_second_widget.dart';
 import 'package:watok/utils.dart';
@@ -57,12 +58,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   // 🚀 앱 시작하기 함수
   void _onStartApp() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const MainNavScreen(),
-      ),
-      (route) => false, // 이전 화면 모두 지우고 이동
-    );
+    context.goNamed(MainNavScreen.route);
   }
 
   @override

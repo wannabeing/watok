@@ -5,6 +5,7 @@ import 'package:watok/utils.dart';
 import '../../constants/sizes.dart';
 
 class ActivityScreen extends StatefulWidget {
+  static const String route = "/activity";
   const ActivityScreen({super.key});
 
   @override

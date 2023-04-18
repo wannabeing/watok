@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/utils.dart';
 
-import '../../../constants/gaps.dart';
-import '../../../constants/sizes.dart';
+import '../../../../constants/gaps.dart';
+import '../../../../constants/sizes.dart';
 
 class NavMenu extends StatelessWidget {
   const NavMenu({

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/message/activity_screen.dart';
 import 'package:watok/features/message/dm_screen.dart';
@@ -14,20 +15,12 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
   // 메시지 스크린 이동 함수
   void _onDmPressed() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const DmScreen(),
-      ),
-    );
+    context.push(DmScreen.route);
   }
 
   // 액티비티 스크린 이동 함수
   void _onActivityScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const ActivityScreen(),
-      ),
-    );
+    context.push(ActivityScreen.route);
   }
 
   @override

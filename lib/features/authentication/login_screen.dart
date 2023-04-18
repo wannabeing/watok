@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/loginform_screen.dart';
@@ -18,7 +17,12 @@ class LoginScreen extends StatelessWidget {
 
   // 로그인 폼 페이지 이동
   void _onClickEmail(BuildContext context) {
-    context.push(LoginFormScreen.route);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginFormScreen(),
+      ),
+    );
   }
 
   @override

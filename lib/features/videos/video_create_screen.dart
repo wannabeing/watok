@@ -1,22 +1,22 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/videos/video_preview_screen.dart';
 
-class VideoRecordingScreen extends StatefulWidget {
-  const VideoRecordingScreen({super.key});
-  static String route = "recording";
+class VideoCreateScreen extends StatefulWidget {
+  const VideoCreateScreen({super.key});
+  static String route = "/video";
+  static String name = "createVideo";
 
   @override
-  State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
+  State<VideoCreateScreen> createState() => _VideoCreateScreenState();
 }
 
-class _VideoRecordingScreenState extends State<VideoRecordingScreen>
+class _VideoCreateScreenState extends State<VideoCreateScreen>
     with WidgetsBindingObserver {
   bool _isAccepted = false; // 캠/마이크 권한 여부
   bool _isCamMode = true; // 카메라 전/후면모드 설정 (true: 전면모드)
@@ -94,15 +94,20 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     }
 
     final video = await _cameraController.stopVideoRecording(); // 녹화된 영상 변수
-
     if (!mounted) return; // context를 async에서 사용했을 때 생기는 문제때문에 추가
-    context.push(
-      VideoPreviewScreen.route,
-      extra: VideoArgs(
-        video: video,
-        isPicked: false,
+
+    // 녹화 종료 후, 프리뷰 페이지 이동
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(
+          videoArgs: VideoArgs(
+            video: video,
+            isPicked: false,
+          ),
+        ),
       ),
-    ); // 녹화 종료 후, 프리뷰 페이지 이동
+    );
   }
 
   // 디바이스 갤러리 함수
@@ -111,13 +116,17 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     if (video == null) return;
     if (!mounted) return; // context를 async에서 사용했을 때 생기는 문제때문에 추가
-    context.push(
-      VideoPreviewScreen.route,
-      extra: VideoArgs(
-        video: video,
-        isPicked: true,
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(
+          videoArgs: VideoArgs(
+            video: video,
+            isPicked: true,
+          ),
+        ),
       ),
-    ); // 녹화 종료 후, 프리뷰 페이지 이동
+    );
   }
 
   // 디바이스 카메라 함수 (임시)
@@ -171,12 +180,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                     CameraPreview(
                       _cameraController,
                     ),
-                  Positioned(
+                  const Positioned(
                     bottom: Sizes.size10,
-                    child: IconButton(
+                    child: CloseButton(
                       color: Colors.white,
-                      onPressed: _toggleCamMode,
-                      icon: const Icon(Icons.cameraswitch_sharp),
                     ),
                   ),
                 ],

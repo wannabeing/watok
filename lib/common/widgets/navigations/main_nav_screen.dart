@@ -1,28 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/features/message/message_screen.dart';
 import 'package:watok/features/mypage/mypage_screen.dart';
-import 'package:watok/features/navigations/widgets/nav_create_video_btn.dart';
-import 'package:watok/features/navigations/widgets/nav_menu.dart';
+import 'package:watok/common/widgets/navigations/widgets/nav_create_video_btn.dart';
+import 'package:watok/common/widgets/navigations/widgets/nav_menu.dart';
 import 'package:watok/features/search/search_screen.dart';
+import 'package:watok/features/videos/video_create_screen.dart';
 import 'package:watok/features/videos/video_timeline_screen.dart';
 import 'package:watok/utils.dart';
 
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
+import '../../../constants/gaps.dart';
+import '../../../constants/sizes.dart';
 
 class MainNavScreen extends StatefulWidget {
-  const MainNavScreen({super.key});
+  static const String route = "/home";
+  final String tabName; // 이동할 탭명
+  const MainNavScreen({
+    super.key,
+    required this.tabName,
+  });
 
   @override
   State<MainNavScreen> createState() => _MainNavScreenState();
 }
 
 class _MainNavScreenState extends State<MainNavScreen> {
-  int _selectedIndex = 4;
+  final List<String> _tabs = [
+    "home",
+    "search",
+    "test",
+    "message",
+    "mypage",
+  ];
+  late int _selectedIndex = _tabs.indexOf(widget.tabName);
 
   // NAV바 이동 함수
-  void _onTap(int index) {
+  void _moveNav(int index) {
+    context.go("/${_tabs[index]}"); // 해당 탭이름으로 URL 이동
     setState(() {
       _selectedIndex = index;
     });
@@ -30,12 +45,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
 
   // NAV바 비디오 생성 클릭 함수
   void _onCreateVideo() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const Scaffold(),
-        fullscreenDialog: true,
-      ),
-    );
+    context.push(VideoCreateScreen.route);
   }
 
   @override
@@ -103,7 +113,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 isSelected: _selectedIndex == 0,
                 selectedIcon: FontAwesomeIcons.house,
                 icon: FontAwesomeIcons.house,
-                onTap: () => _onTap(0),
+                onTap: () => _moveNav(0),
                 selectedIndex: _selectedIndex,
               ),
               NavMenu(
@@ -111,7 +121,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 isSelected: _selectedIndex == 1,
                 selectedIcon: FontAwesomeIcons.solidCompass,
                 icon: FontAwesomeIcons.compass,
-                onTap: () => _onTap(1),
+                onTap: () => _moveNav(1),
                 selectedIndex: _selectedIndex,
               ),
               Gaps.h24,
@@ -127,7 +137,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 isSelected: _selectedIndex == 3,
                 selectedIcon: FontAwesomeIcons.solidMessage,
                 icon: FontAwesomeIcons.message,
-                onTap: () => _onTap(3),
+                onTap: () => _moveNav(3),
                 selectedIndex: _selectedIndex,
               ),
               NavMenu(
@@ -135,7 +145,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
                 isSelected: _selectedIndex == 4,
                 selectedIcon: FontAwesomeIcons.solidUser,
                 icon: FontAwesomeIcons.user,
-                onTap: () => _onTap(4),
+                onTap: () => _moveNav(4),
                 selectedIndex: _selectedIndex,
               ),
             ],

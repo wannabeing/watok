@@ -47,11 +47,11 @@ const interests = [
 ];
 
 // 로그인 폼으로부터 받은 파라미터
-class FormArgs {
+class LoginArgs {
   final String username;
   final String pw;
 
-  FormArgs({
+  LoginArgs({
     required this.username,
     required this.pw,
   });
@@ -60,11 +60,11 @@ class FormArgs {
 class InterestsScreen extends StatefulWidget {
   static String route = "/interests";
 
-  final FormArgs form;
+  final LoginArgs loginArgs;
 
   const InterestsScreen({
     super.key,
-    required this.form,
+    required this.loginArgs,
   });
 
   @override
@@ -115,7 +115,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String email = widget.form.username;
+    final String email = widget.loginArgs.username;
 
     return Scaffold(
       appBar: AppBar(

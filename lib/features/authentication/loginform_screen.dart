@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:watok/common/widgets/navigations/main_nav_screen.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
-import 'package:watok/features/onboard/interests_screen.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 
 class LoginFormScreen extends StatefulWidget {
-  static String route = "/loginForm";
   const LoginFormScreen({super.key});
 
   @override
@@ -27,14 +26,16 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (isVal == true) {
       _formKey.currentState?.save();
 
+      context.goNamed(MainNavScreen.route);
+
       // goRouter에서 파라미터 보내면서 페이지 이동
-      context.go(
-        InterestsScreen.route,
-        extra: FormArgs(
-          username: formData["email"]!,
-          pw: formData["pw"]!,
-        ),
-      );
+      // context.go(
+      //   InterestsScreen.route,
+      //   extra: LoginArgs(
+      //     username: formData["email"]!,
+      //     pw: formData["pw"]!,
+      //   ),
+      // );
 
       // Navigator.of(context).pushNamedAndRemoveUntil(
       //   arguments: FormArgs(

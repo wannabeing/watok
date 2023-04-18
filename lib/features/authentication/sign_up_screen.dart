@@ -13,14 +13,19 @@ class SignUpScreen extends StatelessWidget {
   static String route = "/signup";
   const SignUpScreen({super.key});
 
-  // 로그인 텍스트 클릭 시, 로그인 페이지 이동
+  // 로그인 페이지 이동 함수
   void _onClickLogin(BuildContext context) {
     context.push(LoginScreen.route);
   }
 
-  // 이메일/애플계정 회원가입 페이지
+  // 회원가입 페이지 이동 함수
   void _onClickEmail(BuildContext context) {
-    context.pushNamed(EmailScreen.route);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EmailScreen(),
+      ),
+    );
   }
 
   @override

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/features/message/dm_detail_screen.dart';
 
 import '../../constants/sizes.dart';
 
 class DmScreen extends StatefulWidget {
+  static const String route = "/dm";
+
   const DmScreen({super.key});
 
   @override
@@ -99,10 +102,11 @@ class _DmScreenState extends State<DmScreen> {
 
   // 채팅 상세보기 이동 함수
   void _detailDM(int index) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => DmDetailScreen(index: index),
-      ),
+    context.pushNamed(
+      DmDetailScreen.name,
+      params: {
+        "chatId": "wannabeing$index",
+      },
     );
   }
 

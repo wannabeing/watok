@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/constants/gaps.dart';
-import 'package:watok/features/authentication/loginform_screen.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
+import 'package:watok/features/onboard/interests_screen.dart';
 
 import '../../constants/sizes.dart';
 
@@ -34,14 +35,23 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   // 🚀 Next 클릭
   void _onClickNext() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const LoginFormScreen(),
+    // goRouter에서 파라미터 보내면서 페이지 이동
+    context.go(
+      InterestsScreen.route,
+      extra: LoginArgs(
+        username: "test",
+        pw: "password",
       ),
-      (route) => false,
-      // route에는 이전 화면들의 정보가 담겨 있음
-      // false: 이전 화면 모두 지우고 이동
     );
+    // Navigator.pushAndRemoveUntil(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => const LoginFormScreen(),
+    //   ),
+    //   (route) => false,
+    //   // route에는 이전 화면들의 정보가 담겨 있음
+    //   // false: 이전 화면 모두 지우고 이동
+    // );
   }
 
   // 🚀 날짜 계산 함수

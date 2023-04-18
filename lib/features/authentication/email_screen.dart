@@ -6,8 +6,6 @@ import 'package:watok/features/authentication/widgets/form_button.dart';
 import '../../constants/sizes.dart';
 
 class EmailScreen extends StatefulWidget {
-  static String route = "email";
-
   const EmailScreen({super.key});
 
   @override
@@ -40,7 +38,8 @@ class _EmailScreenState extends State<EmailScreen> {
   void _onSumbit() {
     if (_email.isEmpty || _isEmailValid() != null) return;
 
-    Navigator.of(context).push(
+    Navigator.push(
+      context,
       MaterialPageRoute(
         builder: (context) => const PwScreen(),
       ),
