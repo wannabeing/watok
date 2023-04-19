@@ -8,10 +8,10 @@ import 'package:watok/common/widgets/navigations/widgets/nav_menu.dart';
 import 'package:watok/features/search/search_screen.dart';
 import 'package:watok/features/videos/video_create_screen.dart';
 import 'package:watok/features/videos/video_timeline_screen.dart';
-import 'package:watok/utils.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
+import '../darkTheme_config.dart';
 
 class MainNavScreen extends StatefulWidget {
   static const String route = "/home";
@@ -52,7 +52,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // 키보드입력창 생성 시, 자동 높이 조절 X
-      backgroundColor: _selectedIndex == 0 || isDarkTheme(context)
+      backgroundColor: _selectedIndex == 0 || darkThemeConfig.value
           ? Colors.black
           : Colors.white,
       body: Stack(
@@ -94,7 +94,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
               spreadRadius: 5,
             ),
           ],
-          color: _selectedIndex == 0 || isDarkTheme(context)
+          color: _selectedIndex == 0 || darkThemeConfig.value
               ? Colors.black
               : Colors.white,
         ),

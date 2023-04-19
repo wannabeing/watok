@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:watok/features/onboard/tt_screen.dart';
 import 'package:watok/features/onboard/widgets/interest_btn.dart';
+import '../../common/widgets/darkTheme_config.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
-import '../../utils.dart';
 
 const interests = [
   "Daily Life",
@@ -174,7 +174,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: isDarkTheme(context)
+          color: darkThemeConfig.value
               ? Colors.grey.shade900
               : Colors.grey.shade100,
           boxShadow: [

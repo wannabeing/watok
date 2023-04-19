@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/constants/width_types.dart';
-import 'package:watok/utils.dart';
 
+import '../../common/widgets/darkTheme_config.dart';
 import '../../constants/gaps.dart';
 
 final tabs = [
@@ -69,7 +69,7 @@ class _SearchScreenState extends State<SearchScreen>
             ),
             child: CupertinoSearchTextField(
               style: TextStyle(
-                color: isDarkTheme(context) ? Colors.white : null,
+                color: darkThemeConfig.value ? Colors.white : null,
               ),
               padding: const EdgeInsets.symmetric(
                 vertical: Sizes.size14,
@@ -148,7 +148,7 @@ class _SearchScreenState extends State<SearchScreen>
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                              fontSize: Sizes.size18,
+                              fontSize: Sizes.size16,
                               fontWeight: FontWeight.bold,
                               height: 1.2,
                             ),
@@ -158,7 +158,7 @@ class _SearchScreenState extends State<SearchScreen>
                             DefaultTextStyle(
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: isDarkTheme(context)
+                                color: darkThemeConfig.value
                                     ? null
                                     : Colors.grey.shade600,
                               ),

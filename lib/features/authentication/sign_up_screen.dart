@@ -7,7 +7,7 @@ import 'package:watok/features/authentication/email_screen.dart';
 import 'package:watok/features/authentication/login_screen.dart';
 import 'package:watok/features/authentication/widgets/auth_button.dart';
 
-import '../../utils.dart';
+import '../../common/widgets/darkTheme_config.dart';
 
 class SignUpScreen extends StatelessWidget {
   static String route = "/signup";
@@ -77,7 +77,7 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: Container(
-            color: isDarkTheme(context)
+            color: darkThemeConfig.value
                 ? Colors.grey.shade900
                 : Colors.grey.shade100,
             child: Padding(

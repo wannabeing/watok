@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/gaps.dart';
-import 'package:watok/utils.dart';
 import '../../constants/sizes.dart';
 
 class ActivityScreen extends StatefulWidget {
@@ -136,7 +136,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                       width: Sizes.size52,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isDarkTheme(context)
+                        color: darkThemeConfig.value
                             ? Colors.grey.shade800
                             : Colors.white,
                         border: Border.all(
@@ -156,7 +156,7 @@ class _ActivityScreenState extends State<ActivityScreen>
                         style: TextStyle(
                           fontSize: Sizes.size16,
                           fontWeight: FontWeight.bold,
-                          color: isDarkTheme(context)
+                          color: darkThemeConfig.value
                               ? Colors.white
                               : Colors.black,
                         ),

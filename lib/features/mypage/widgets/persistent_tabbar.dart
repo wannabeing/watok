@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:watok/utils.dart';
 
+import '../../../common/widgets/darkTheme_config.dart';
 import '../../../constants/sizes.dart';
 
 class MyPagePersistentTabBar extends SliverPersistentHeaderDelegate {
@@ -14,7 +14,7 @@ class MyPagePersistentTabBar extends SliverPersistentHeaderDelegate {
         border: Border.symmetric(
           horizontal: BorderSide(
             width: 1,
-            color: isDarkTheme(context)
+            color: darkThemeConfig.value
                 ? Colors.grey.shade900
                 : Colors.grey.shade300,
           ),

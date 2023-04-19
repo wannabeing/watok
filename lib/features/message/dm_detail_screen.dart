@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 
+import '../../common/widgets/darkTheme_config.dart';
 import '../../constants/sizes.dart';
-import '../../utils.dart';
 
 class DmDetailScreen extends StatefulWidget {
   static const name = "dmDetail";
@@ -86,13 +86,11 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
             children: const [
               FaIcon(
                 FontAwesomeIcons.flag,
-                color: Colors.black,
                 size: Sizes.size20,
               ),
               Gaps.h32,
               FaIcon(
                 FontAwesomeIcons.ellipsis,
-                color: Colors.black,
                 size: Sizes.size20,
               ),
             ],
@@ -148,7 +146,9 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
               bottom: 0,
               width: MediaQuery.of(context).size.width,
               child: Container(
-                color: Colors.grey.shade50,
+                color: darkThemeConfig.value
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade50,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.size16,
@@ -176,7 +176,7 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
                                   children: [
                                     FaIcon(
                                       FontAwesomeIcons.faceSmile,
-                                      color: isDarkTheme(context)
+                                      color: darkThemeConfig.value
                                           ? Colors.grey.shade300
                                           : Colors.grey.shade900,
                                     ),
@@ -199,7 +199,7 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor: isDarkTheme(context)
+                              fillColor: darkThemeConfig.value
                                   ? Colors.grey.shade700
                                   : Colors.grey.shade200,
                               contentPadding: const EdgeInsets.symmetric(

@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:watok/common/widgets/navigations/main_nav_screen.dart';
 import 'package:watok/features/onboard/widgets/tt_first_widget.dart';
 import 'package:watok/features/onboard/widgets/tt_second_widget.dart';
-import 'package:watok/utils.dart';
 
+import '../../common/widgets/darkTheme_config.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 
@@ -106,7 +106,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
                         child: Text(
                           "이해했어요!",
                           style: TextStyle(
-                            color: isDarkTheme(context) ? Colors.white : null,
+                            color: darkThemeConfig.value ? Colors.white : null,
                           ),
                         ),
                       ),

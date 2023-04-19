@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../constants/sizes.dart';
-import '../../../../utils.dart';
+import '../../darkTheme_config.dart';
 
 class NavCreateVideoButton extends StatelessWidget {
   const NavCreateVideoButton({
@@ -14,7 +14,7 @@ class NavCreateVideoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkTheme(context);
+    final isDark = darkThemeConfig.value;
     return Stack(
       clipBehavior: Clip.none,
       children: [

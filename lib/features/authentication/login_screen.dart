@@ -4,7 +4,8 @@ import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/loginform_screen.dart';
 import 'package:watok/features/authentication/widgets/auth_button.dart';
-import 'package:watok/utils.dart';
+
+import '../../common/widgets/darkTheme_config.dart';
 
 class LoginScreen extends StatelessWidget {
   static String route = "/login";
@@ -73,7 +74,7 @@ class LoginScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         color:
-            isDarkTheme(context) ? Colors.grey.shade900 : Colors.grey.shade100,
+            darkThemeConfig.value ? Colors.grey.shade900 : Colors.grey.shade100,
         child: Padding(
           padding: const EdgeInsets.only(
             top: Sizes.size32,

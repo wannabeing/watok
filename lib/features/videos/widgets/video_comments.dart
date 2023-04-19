@@ -4,7 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/constants/width_types.dart';
-import 'package:watok/utils.dart';
+
+import '../../../common/widgets/darkTheme_config.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({super.key});
@@ -58,10 +59,10 @@ class _VideoCommentsState extends State<VideoComments> {
           decoration:
               BoxDecoration(borderRadius: BorderRadius.circular(Sizes.size16)),
           child: Scaffold(
-            backgroundColor: isDarkTheme(context) ? null : Colors.grey.shade50,
+            backgroundColor: darkThemeConfig.value ? null : Colors.grey.shade50,
             appBar: AppBar(
               backgroundColor:
-                  isDarkTheme(context) ? null : Colors.grey.shade50,
+                  darkThemeConfig.value ? null : Colors.grey.shade50,
               title: const Text("23 comments"),
               actions: const [
                 CloseButton(),
@@ -86,7 +87,7 @@ class _VideoCommentsState extends State<VideoComments> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CircleAvatar(
-                          backgroundColor: isDarkTheme(context)
+                          backgroundColor: darkThemeConfig.value
                               ? Colors.grey.shade800
                               : null,
                           child: const Text("A"),
@@ -153,7 +154,7 @@ class _VideoCommentsState extends State<VideoComments> {
                         children: [
                           CircleAvatar(
                             radius: 18,
-                            backgroundColor: isDarkTheme(context)
+                            backgroundColor: darkThemeConfig.value
                                 ? Colors.grey.shade800
                                 : null,
                             child: const Text("A"),
@@ -180,21 +181,21 @@ class _VideoCommentsState extends State<VideoComments> {
                                       children: [
                                         FaIcon(
                                           FontAwesomeIcons.at,
-                                          color: isDarkTheme(context)
+                                          color: darkThemeConfig.value
                                               ? Colors.grey.shade300
                                               : Colors.grey.shade900,
                                         ),
                                         Gaps.h10,
                                         FaIcon(
                                           FontAwesomeIcons.gift,
-                                          color: isDarkTheme(context)
+                                          color: darkThemeConfig.value
                                               ? Colors.grey.shade300
                                               : Colors.grey.shade900,
                                         ),
                                         Gaps.h10,
                                         FaIcon(
                                           FontAwesomeIcons.faceSmile,
-                                          color: isDarkTheme(context)
+                                          color: darkThemeConfig.value
                                               ? Colors.grey.shade300
                                               : Colors.grey.shade900,
                                         ),
@@ -218,7 +219,7 @@ class _VideoCommentsState extends State<VideoComments> {
                                     borderSide: BorderSide.none,
                                   ),
                                   filled: true,
-                                  fillColor: isDarkTheme(context)
+                                  fillColor: darkThemeConfig.value
                                       ? Colors.grey.shade700
                                       : Colors.grey.shade200,
                                   contentPadding: const EdgeInsets.symmetric(

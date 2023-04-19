@@ -162,7 +162,10 @@ class _VideoCreateScreenState extends State<VideoCreateScreen>
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    // cameraController가 존재할 때만 dispose
+    if (_isAccepted || _isAppLeaved) {
+      _cameraController.dispose();
+    }
     super.dispose();
   }
 
@@ -201,6 +204,9 @@ class _VideoCreateScreenState extends State<VideoCreateScreen>
                   Gaps.v20,
                   CircularProgressIndicator.adaptive(
                     backgroundColor: Colors.white,
+                  ),
+                  CloseButton(
+                    color: Colors.white,
                   ),
                 ],
               ),

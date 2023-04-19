@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/router.dart';
 
 import 'constants/sizes.dart';
@@ -15,16 +16,33 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool _isDark = darkThemeConfig.value;
+
+  @override
+  void initState() {
+    super.initState();
+    darkThemeConfig.addListener(() {
+      setState(() {
+        _isDark = darkThemeConfig.value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: goRouter,
       title: '와톡',
-      themeMode: ThemeMode.system,
+      // themeMode: ThemeMode.system,
+      themeMode: darkThemeConfig.value ? ThemeMode.dark : ThemeMode.light,
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,

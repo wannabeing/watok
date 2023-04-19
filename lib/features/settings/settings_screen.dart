@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/width_types.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -104,6 +105,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
           constraints: const BoxConstraints(maxWidth: WidthTypes.sm),
           child: ListView(
             children: [
+              AnimatedBuilder(
+                animation: darkThemeConfig,
+                builder: (context, child) {
+                  return SwitchListTile.adaptive(
+                    title: const Text("다크모드 설정"),
+                    subtitle: const Text("서브 타이틀"),
+                    value: darkThemeConfig.value,
+                    onChanged: (val) =>
+                        darkThemeConfig.value = !darkThemeConfig.value,
+                  );
+                },
+              ),
               ListTile(
                 title: const Text("알림 테스트창 (IOS)"),
                 onTap: _onTapAlertIOS,

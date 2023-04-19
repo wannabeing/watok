@@ -55,7 +55,6 @@ class _MessageScreenState extends State<MessageScreen> {
             trailing: const FaIcon(
               FontAwesomeIcons.chevronRight,
               size: Sizes.size16,
-              color: Colors.black,
             ),
           ),
           Container(
@@ -90,7 +89,6 @@ class _MessageScreenState extends State<MessageScreen> {
             trailing: const FaIcon(
               FontAwesomeIcons.chevronRight,
               size: Sizes.size16,
-              color: Colors.black,
             ),
           ),
         ],

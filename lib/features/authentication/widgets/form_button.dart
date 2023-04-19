@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../common/widgets/darkTheme_config.dart';
 import '../../../constants/sizes.dart';
-import '../../../utils.dart';
 
 class FormButton extends StatelessWidget {
   const FormButton({
@@ -29,7 +29,7 @@ class FormButton extends StatelessWidget {
             ),
           ),
           color: disabled
-              ? isDarkTheme(context)
+              ? darkThemeConfig.value
                   ? Colors.grey.shade600
                   : Colors.grey.shade300
               : Theme.of(context).primaryColor,
