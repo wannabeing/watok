@@ -5,7 +5,7 @@ import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/constants/width_types.dart';
 
-import '../../../common/widgets/darkTheme_config.dart';
+import '../../../../common/widgets/darkTheme_config.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({super.key});

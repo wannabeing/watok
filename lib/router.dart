@@ -8,7 +8,7 @@ import 'package:watok/features/message/dm_detail_screen.dart';
 import 'package:watok/features/message/dm_screen.dart';
 import 'package:watok/features/onboard/interests_screen.dart';
 
-import 'features/videos/video_create_screen.dart';
+import 'features/videos/views/video_create_screen.dart';
 
 final goRouter = GoRouter(
   initialLocation: MainNavScreen.route,

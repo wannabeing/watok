@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/width_types.dart';
+import 'package:watok/features/videos/view_models/video_config_vm.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -105,6 +107,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
           constraints: const BoxConstraints(maxWidth: WidthTypes.sm),
           child: ListView(
             children: [
+              SwitchListTile.adaptive(
+                title: const Text("비디오 음소거"),
+                subtitle: const Text("서브 타이틀"),
+                value: context.watch<VideoConfigViewModel>().muted,
+                onChanged: (value) =>
+                    context.read<VideoConfigViewModel>().setMuted(value),
+              ),
+              SwitchListTile.adaptive(
+                title: const Text("비디오 오토플레이"),
+                subtitle: const Text("서브 타이틀"),
+                value: context.watch<VideoConfigViewModel>().autoplay,
+                onChanged: (value) =>
+                    context.read<VideoConfigViewModel>().setAutoplay(value),
+              ),
               AnimatedBuilder(
                 animation: darkThemeConfig,
                 builder: (context, child) {

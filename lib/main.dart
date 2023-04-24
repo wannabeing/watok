@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
+import 'package:watok/features/videos/repos/video_config_repo.dart';
+import 'package:watok/features/videos/view_models/video_config_vm.dart';
 import 'package:watok/router.dart';
 
 import 'constants/sizes.dart';
@@ -13,7 +17,21 @@ void main() async {
       DeviceOrientation.portraitUp,
     ],
   );
-  runApp(const MyApp());
+
+  // View Model을 위한 세팅
+  final preferences = await SharedPreferences.getInstance();
+  final repo = VideoConfigRepository(preferences);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => VideoConfigViewModel(repo),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -24,15 +42,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isDark = darkThemeConfig.value;
-
   @override
   void initState() {
     super.initState();
     darkThemeConfig.addListener(() {
-      setState(() {
-        _isDark = darkThemeConfig.value;
-      });
+      setState(() {});
     });
   }
 

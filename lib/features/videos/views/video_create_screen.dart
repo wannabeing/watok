@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
-import 'package:watok/features/videos/video_preview_screen.dart';
+import 'package:watok/features/videos/views/video_preview_screen.dart';
 
 class VideoCreateScreen extends StatefulWidget {
   const VideoCreateScreen({super.key});

@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/constants/width_types.dart';
-import 'package:watok/features/videos/widgets/video_comments.dart';
-import 'package:watok/features/videos/widgets/video_icon.dart';
+import 'package:watok/features/videos/view_models/video_config_vm.dart';
+import 'package:watok/features/videos/views/widgets/video_comments.dart';
+import 'package:watok/features/videos/views/widgets/video_icon.dart';
 
 class VideoPostScreen extends StatefulWidget {
   final Function onVideoFinished;
@@ -25,6 +27,7 @@ class VideoPostScreen extends StatefulWidget {
 class _VideoPostScreenState extends State<VideoPostScreen>
     with SingleTickerProviderStateMixin {
   bool _isClick = false;
+  bool _isMuted = false;
 
   late final VideoPlayerController _videoPlayerController;
 
@@ -106,11 +109,21 @@ class _VideoPostScreenState extends State<VideoPostScreen>
 
   // 볼륨 음소거 설정 함수
   void _onTapVolume() {
-    if (_videoPlayerController.value.volume < 0.1) {
+    if (_isMuted) {
       _videoPlayerController.setVolume(1.0); // 음소거 해제
     } else {
       _videoPlayerController.setVolume(0.0); // 음소거 설정
     }
+    _isMuted = !_isMuted;
+    setState(() {});
+  }
+
+  // 볼륨 default 설정 함수
+  void _initMute() {
+    final muteSettings = context.read<VideoConfigViewModel>().muted;
+    _isMuted = muteSettings; // 음소거 default 값 설정
+
+    _videoPlayerController.setVolume(_isMuted ? 0.0 : 1.0); // 음소거 설정되어 있으면 초기화
     setState(() {});
   }
 
@@ -119,6 +132,7 @@ class _VideoPostScreenState extends State<VideoPostScreen>
     super.initState();
 
     _initVideoPlayer(); // 영상 실행
+    _initMute(); // 음소거 설정
 
     _animationController = AnimationController(
       vsync: this,
@@ -250,7 +264,7 @@ class _VideoPostScreenState extends State<VideoPostScreen>
                     GestureDetector(
                       onTap: _onTapVolume,
                       child: VideoIcon(
-                        icon: _videoPlayerController.value.volume < 0.1
+                        icon: _isMuted
                             ? FontAwesomeIcons.volumeXmark
                             : FontAwesomeIcons.volumeHigh,
                         text: "null",

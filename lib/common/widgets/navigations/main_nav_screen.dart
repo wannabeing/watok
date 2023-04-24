@@ -6,8 +6,9 @@ import 'package:watok/features/mypage/mypage_screen.dart';
 import 'package:watok/common/widgets/navigations/widgets/nav_create_video_btn.dart';
 import 'package:watok/common/widgets/navigations/widgets/nav_menu.dart';
 import 'package:watok/features/search/search_screen.dart';
-import 'package:watok/features/videos/video_create_screen.dart';
-import 'package:watok/features/videos/video_timeline_screen.dart';
+
+import 'package:watok/features/videos/views/video_create_screen.dart';
+import 'package:watok/features/videos/views/video_timeline_screen.dart';
 
 import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
