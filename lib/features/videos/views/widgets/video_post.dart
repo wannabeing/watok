@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:watok/constants/gaps.dart';
@@ -11,7 +11,7 @@ import 'package:watok/features/videos/view_models/video_config_vm.dart';
 import 'package:watok/features/videos/views/widgets/video_comments.dart';
 import 'package:watok/features/videos/views/widgets/video_icon.dart';
 
-class VideoPostScreen extends StatefulWidget {
+class VideoPostScreen extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
   const VideoPostScreen({
@@ -21,10 +21,10 @@ class VideoPostScreen extends StatefulWidget {
   });
 
   @override
-  State<VideoPostScreen> createState() => _VideoPostScreenState();
+  VideoPostScreenState createState() => VideoPostScreenState();
 }
 
-class _VideoPostScreenState extends State<VideoPostScreen>
+class VideoPostScreenState extends ConsumerState<VideoPostScreen>
     with SingleTickerProviderStateMixin {
   bool _isClick = false;
   bool _isMuted = false;
@@ -120,7 +120,7 @@ class _VideoPostScreenState extends State<VideoPostScreen>
 
   // 볼륨 default 설정 함수
   void _initMute() {
-    final muteSettings = context.read<VideoConfigViewModel>().muted;
+    final muteSettings = ref.read(videoConfigProvider).muted;
     _isMuted = muteSettings; // 음소거 default 값 설정
 
     _videoPlayerController.setVolume(_isMuted ? 0.0 : 1.0); // 음소거 설정되어 있으면 초기화

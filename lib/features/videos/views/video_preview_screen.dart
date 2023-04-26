@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:video_player/video_player.dart';
+import 'package:watok/features/videos/view_models/timeline_view_model.dart';
 
 class VideoArgs {
   final XFile video; // 녹화한 영상 파일
@@ -16,7 +18,7 @@ class VideoArgs {
   });
 }
 
-class VideoPreviewScreen extends StatefulWidget {
+class VideoPreviewScreen extends ConsumerStatefulWidget {
   static String route = "/preview";
   final VideoArgs videoArgs;
 
@@ -26,10 +28,10 @@ class VideoPreviewScreen extends StatefulWidget {
   });
 
   @override
-  State<VideoPreviewScreen> createState() => _VideoPreviewScreenState();
+  VideoPreviewScreenState createState() => VideoPreviewScreenState();
 }
 
-class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
+class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   late VideoPlayerController _videoPlayerController;
   bool _isSaved = false; // 녹화한 영상 저장했는지 (false: 저장 안했음)
   late final bool _isPicked =
@@ -58,6 +60,11 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
     setState(() {});
   }
 
+  // 영상 업로드 함수
+  void _uploadVideo() {
+    ref.read(timelineProvider.notifier).addVideoModel();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -83,6 +90,13 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
                   ? const FaIcon(FontAwesomeIcons.check)
                   : const FaIcon(FontAwesomeIcons.download),
             ),
+          IconButton(
+            onPressed:
+                ref.watch(timelineProvider).isLoading ? () {} : _uploadVideo,
+            icon: ref.watch(timelineProvider).isLoading
+                ? const CircularProgressIndicator()
+                : const FaIcon(FontAwesomeIcons.arrowRight),
+          ),
         ],
       ),
       body: _videoPlayerController.value.isInitialized

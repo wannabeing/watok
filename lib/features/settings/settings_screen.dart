@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/width_types.dart';
 import 'package:watok/features/videos/view_models/video_config_vm.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  SettingsScreenState createState() => SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class SettingsScreenState extends ConsumerState<SettingsScreen> {
   // 스위치 테스트 변수
   bool _switchVal = false;
 
@@ -110,16 +110,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               SwitchListTile.adaptive(
                 title: const Text("비디오 음소거"),
                 subtitle: const Text("서브 타이틀"),
-                value: context.watch<VideoConfigViewModel>().muted,
+                value: ref.watch(videoConfigProvider).muted,
                 onChanged: (value) =>
-                    context.read<VideoConfigViewModel>().setMuted(value),
-              ),
-              SwitchListTile.adaptive(
-                title: const Text("비디오 오토플레이"),
-                subtitle: const Text("서브 타이틀"),
-                value: context.watch<VideoConfigViewModel>().autoplay,
-                onChanged: (value) =>
-                    context.read<VideoConfigViewModel>().setAutoplay(value),
+                    ref.read(videoConfigProvider.notifier).setMuted(value),
               ),
               AnimatedBuilder(
                 animation: darkThemeConfig,

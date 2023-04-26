@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:watok/features/videos/view_models/timeline_view_model.dart';
 import 'package:watok/features/videos/views/widgets/video_post.dart';
 
-class VideoTimelineScreen extends StatefulWidget {
+class VideoTimelineScreen extends ConsumerStatefulWidget {
   const VideoTimelineScreen({super.key});
 
   @override
-  State<VideoTimelineScreen> createState() => _VideoTimelineScreenState();
+  VideoTimelineScreenState createState() => VideoTimelineScreenState();
 }
 
-class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
+class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   final PageController _pageController = PageController();
 
   int _itemCount = 3;
@@ -53,20 +55,35 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _onRefresh,
-      color: Theme.of(context).primaryColor,
-      edgeOffset: 20,
-      child: PageView.builder(
-        controller: _pageController,
-        scrollDirection: Axis.vertical,
-        itemCount: _itemCount,
-        onPageChanged: _onPageChange,
-        itemBuilder: (context, index) => VideoPostScreen(
-          index: index, // 몇번째 화면인지
-          onVideoFinished: _onVideoFinished, // 비디오가 끝났을 때 실행할 함수
-        ),
-      ),
-    );
+    return ref.watch(timelineProvider).when(
+          loading: () => Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          error: (error, stackTrace) => Center(
+            child: Text(
+              "$error",
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+          data: (videos) => RefreshIndicator(
+            onRefresh: _onRefresh,
+            color: Theme.of(context).primaryColor,
+            edgeOffset: 20,
+            child: PageView.builder(
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              itemCount: videos.length,
+              onPageChanged: _onPageChange,
+              itemBuilder: (context, index) => VideoPostScreen(
+                index: index, // 몇번째 화면인지
+                onVideoFinished: _onVideoFinished, // 비디오가 끝났을 때 실행할 함수
+              ),
+            ),
+          ),
+        );
   }
 }

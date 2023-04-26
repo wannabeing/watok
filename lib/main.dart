@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/features/videos/repos/video_config_repo.dart';
@@ -23,10 +23,10 @@ void main() async {
   final repo = VideoConfigRepository(preferences);
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => VideoConfigViewModel(repo),
+    ProviderScope(
+      overrides: [
+        videoConfigProvider.overrideWith(
+          () => VideoConfigViewModel(repo),
         ),
       ],
       child: const MyApp(),
