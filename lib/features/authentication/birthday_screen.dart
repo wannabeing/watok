@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:watok/constants/gaps.dart';
+import 'package:watok/features/authentication/view_models/auth_view_model.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
 import 'package:watok/features/onboard/interests_screen.dart';
 
 import '../../constants/sizes.dart';
 
-class BirthdayScreen extends StatefulWidget {
+class BirthdayScreen extends ConsumerStatefulWidget {
   const BirthdayScreen({super.key});
 
   @override
-  State<BirthdayScreen> createState() => _BirthdayScreenState();
+  ConsumerState<BirthdayScreen> createState() => _BirthdayScreenState();
 }
 
-class _BirthdayScreenState extends State<BirthdayScreen> {
+class _BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
-
   late DateTime initDate;
 
   @override
@@ -35,12 +36,15 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   // 🚀 Next 클릭
   void _onClickNext() {
+    // firebase 계정생성 요청
+    ref.read(authProvider.notifier).createUser();
+
     // goRouter에서 파라미터 보내면서 페이지 이동
     context.go(
       InterestsScreen.route,
       extra: LoginArgs(
-        username: "test",
-        pw: "password",
+        email: ref.read(authForm)["email"],
+        pw: ref.read(authForm)["pw"],
       ),
     );
     // Navigator.pushAndRemoveUntil(
@@ -115,8 +119,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
             Gaps.v16,
             GestureDetector(
               onTap: _onClickNext,
-              child: const FormButton(
-                disabled: false,
+              child: FormButton(
+                disabled: ref.watch(authProvider).isLoading,
                 btnText: "다음",
               ),
             ),

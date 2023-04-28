@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/features/videos/repos/video_config_repo.dart';
 import 'package:watok/features/videos/view_models/video_config_vm.dart';
+import 'package:watok/firebase_options.dart';
 import 'package:watok/router.dart';
 
 import 'constants/sizes.dart';
@@ -12,16 +14,27 @@ import 'constants/sizes.dart';
 void main() async {
   // 디바이스 세로방향 고정
   WidgetsFlutterBinding.ensureInitialized();
+
+  // firebase 설정 (IOS/ANDROID/WEB)
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   await SystemChrome.setPreferredOrientations(
     [
       DeviceOrientation.portraitUp,
     ],
   );
 
-  // View Model을 위한 세팅
+  // SharedPreference 정의
   final preferences = await SharedPreferences.getInstance();
   final repo = VideoConfigRepository(preferences);
 
+  /*
+    - ProviderScope: overrides
+      앱이 시작되기 직전에 SharedPreferences가 완료되면 ProviderScope에게 
+      VideoConfigViewModel에게 repo를 전달하고 재정의시킨다.
+  */
   runApp(
     ProviderScope(
       overrides: [
@@ -34,14 +47,14 @@ void main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
@@ -53,7 +66,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: goRouter,
+      routerConfig: ref.watch(goRouterProvider),
       title: '와톡',
       // themeMode: ThemeMode.system,
       themeMode: darkThemeConfig.value ? ThemeMode.dark : ThemeMode.light,

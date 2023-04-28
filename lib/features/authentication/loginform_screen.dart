@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:watok/common/widgets/navigations/main_nav_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:watok/features/authentication/view_models/login_view_model.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
+import 'package:watok/features/onboard/interests_screen.dart';
 
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
 
-class LoginFormScreen extends StatefulWidget {
+class LoginFormScreen extends ConsumerStatefulWidget {
   const LoginFormScreen({super.key});
 
   @override
-  State<LoginFormScreen> createState() => _LoginFormScreenState();
+  ConsumerState<LoginFormScreen> createState() => _LoginFormScreenState();
 }
 
-class _LoginFormScreenState extends State<LoginFormScreen> {
+class _LoginFormScreenState extends ConsumerState<LoginFormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // 폼 데이터 변수
@@ -26,7 +27,14 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (isVal == true) {
       _formKey.currentState?.save();
 
-      context.goNamed(MainNavScreen.route);
+      // 로그인 요청 함수
+      ref.read(loginProvider.notifier).userLogin(
+            LoginArgs(
+              email: formData["email"]!,
+              pw: formData["pw"]!,
+            ),
+            context,
+          );
 
       // goRouter에서 파라미터 보내면서 페이지 이동
       // context.go(
@@ -163,8 +171,8 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 Gaps.v28,
                 GestureDetector(
                   onTap: _onSubmit,
-                  child: const FormButton(
-                    disabled: false,
+                  child: FormButton(
+                    disabled: ref.watch(loginProvider).isLoading,
                     btnText: "로그인",
                   ),
                 ),

@@ -1,43 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/features/authentication/pw_screen.dart';
+import 'package:watok/features/authentication/view_models/auth_view_model.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
 
 import '../../constants/sizes.dart';
 
-class EmailScreen extends StatefulWidget {
+class EmailScreen extends ConsumerStatefulWidget {
   const EmailScreen({super.key});
 
   @override
-  State<EmailScreen> createState() => _EmailScreenState();
+  ConsumerState<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _EmailScreenState extends State<EmailScreen> {
+class _EmailScreenState extends ConsumerState<EmailScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   String _email = '';
 
-  @override
-  void initState() {
-    super.initState();
-
-    _emailController.addListener(() {
-      setState(() {
-        _email = _emailController.text;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  // 🚀 다음 클릭 함수
+  // 🚀 이메일 제출 함수
   void _onSumbit() {
     if (_email.isEmpty || _isEmailValid() != null) return;
 
+    // auth state에 email 저장
+    ref.read(authForm.notifier).state = {
+      "email": _email,
+    };
+    // 페이지 이동
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -61,6 +51,23 @@ class _EmailScreenState extends State<EmailScreen> {
   // 🚀 Scaffold 영역 클릭 함수
   void _onClickScaffold() {
     FocusScope.of(context).unfocus();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _emailController.addListener(() {
+      setState(() {
+        _email = _emailController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
   }
 
   @override

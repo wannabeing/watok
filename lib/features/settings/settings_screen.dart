@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/width_types.dart';
+import 'package:watok/features/authentication/login_screen.dart';
+import 'package:watok/features/authentication/repos/auth_repo.dart';
 import 'package:watok/features/videos/view_models/video_config_vm.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -47,7 +50,7 @@ class SettingsScreenState extends ConsumerState<SettingsScreen> {
     });
   }
 
-  // 알림 테스트 함수 (IOS)
+  // 로그아웃 테스트 함수 (IOS)
   void _onTapAlertIOS() {
     showCupertinoDialog(
       context: context,
@@ -58,7 +61,7 @@ class SettingsScreenState extends ConsumerState<SettingsScreen> {
           actions: [
             CupertinoDialogAction(
               child: const Text("넹"),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => _onLogout(),
             ),
             CupertinoDialogAction(
               isDestructiveAction: true,
@@ -69,6 +72,16 @@ class SettingsScreenState extends ConsumerState<SettingsScreen> {
         );
       },
     );
+  }
+
+  // 로그아웃 함수
+  void _onLogout() async {
+    // Firebase 로그아웃 요청
+    await ref.read(authRepository).sendLogout();
+
+    // 로그인 페이지 redirect
+    if (!mounted) return;
+    context.go(LoginScreen.route);
   }
 
   // 알림 테스트 함수 (Android)
@@ -127,7 +140,10 @@ class SettingsScreenState extends ConsumerState<SettingsScreen> {
                 },
               ),
               ListTile(
-                title: const Text("알림 테스트창 (IOS)"),
+                title: const Text(
+                  "로그아웃 (IOS)",
+                  style: TextStyle(color: Colors.red),
+                ),
                 onTap: _onTapAlertIOS,
               ),
               ListTile(

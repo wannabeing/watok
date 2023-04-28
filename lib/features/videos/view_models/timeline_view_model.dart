@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/features/videos/models/video_model.dart';
 
-// VideoModel[]을 expose하는 클래스
 class TimeLineViewModel extends AsyncNotifier<List<VideoModel>> {
   // Video 리스트
   List<VideoModel> _list = [

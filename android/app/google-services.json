@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "974213657023",
+    "project_id": "my-watok",
+    "storage_bucket": "my-watok.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974213657023:android:421400ea7620f3c885b10a",
+        "android_client_info": {
+          "package_name": "com.example.watok"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974213657023-irma9nc56a7pn14f4uiostrnvtnf5215.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBf0WpkwTPieQoLA6gPN8mnI8FWOy78DF4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974213657023-irma9nc56a7pn14f4uiostrnvtnf5215.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "974213657023-fpnfen2ermh181lpa15hl72jnhcrs5gv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wannabeing.watokApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

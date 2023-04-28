@@ -48,11 +48,11 @@ const interests = [
 
 // 로그인 폼으로부터 받은 파라미터
 class LoginArgs {
-  final String username;
+  final String email;
   final String pw;
 
   LoginArgs({
-    required this.username,
+    required this.email,
     required this.pw,
   });
 }
@@ -115,7 +115,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String email = widget.loginArgs.username;
+    final String email = widget.loginArgs.email;
 
     return Scaffold(
       appBar: AppBar(

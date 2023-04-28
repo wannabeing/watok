@@ -58,7 +58,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
 
   // 🚀 앱 시작하기 함수
   void _onStartApp() {
-    context.goNamed(MainNavScreen.route);
+    context.go(MainNavScreen.route);
   }
 
   @override

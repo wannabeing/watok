@@ -94,7 +94,9 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
             onPressed:
                 ref.watch(timelineProvider).isLoading ? () {} : _uploadVideo,
             icon: ref.watch(timelineProvider).isLoading
-                ? const CircularProgressIndicator()
+                ? CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  )
                 : const FaIcon(FontAwesomeIcons.arrowRight),
           ),
         ],

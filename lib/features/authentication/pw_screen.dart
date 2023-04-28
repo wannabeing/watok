@@ -1,44 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/features/authentication/birthday_screen.dart';
+import 'package:watok/features/authentication/view_models/auth_view_model.dart';
 import 'package:watok/features/authentication/widgets/form_button.dart';
 
 import '../../constants/sizes.dart';
 
-class PwScreen extends StatefulWidget {
+class PwScreen extends ConsumerStatefulWidget {
   const PwScreen({super.key});
 
   @override
-  State<PwScreen> createState() => _PwScreenState();
+  ConsumerState<PwScreen> createState() => _PwScreenState();
 }
 
-class _PwScreenState extends State<PwScreen> {
+class _PwScreenState extends ConsumerState<PwScreen> {
   final TextEditingController _pwController = TextEditingController();
 
   String _pw = '';
   bool _isObscure = true;
 
-  @override
-  void initState() {
-    super.initState();
-
-    _pwController.addListener(() {
-      setState(() {
-        _pw = _pwController.text;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _pwController.dispose();
-    super.dispose();
-  }
-
   // 🚀 다음 클릭 함수
   void _onSumbit() {
     if (!_isPwValid() || !_isPwLengthValid()) return;
+
+    // auth state에 pw 저장
+    final state = ref.read(authForm.notifier).state;
+    ref.read(authForm.notifier).state = {
+      ...state,
+      "pw": _pw,
+    };
+
+    // 페이지 이동
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -74,6 +68,23 @@ class _PwScreenState extends State<PwScreen> {
   // 🚀 Scaffold 영역 클릭 함수
   void _onClickScaffold() {
     FocusScope.of(context).unfocus();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pwController.addListener(() {
+      setState(() {
+        _pw = _pwController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _pwController.dispose();
+    super.dispose();
   }
 
   @override
