@@ -32,6 +32,11 @@ class AuthRepository {
       password: args.pw,
     );
   }
+
+  // Github 유저로그인 함수
+  Future<void> sendGithubLogin() async {
+    await _firebaseAuth.signInWithProvider(GithubAuthProvider());
+  }
 }
 
 final authRepository = Provider((ref) => AuthRepository());

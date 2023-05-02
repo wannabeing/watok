@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/loginform_screen.dart';
+import 'package:watok/features/authentication/view_models/github_view_model.dart';
 import 'package:watok/features/authentication/widgets/auth_button.dart';
 
 import '../../common/widgets/darkTheme_config.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   static String route = "/login";
   const LoginScreen({super.key});
 
@@ -27,7 +29,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -64,9 +66,13 @@ class LoginScreen extends StatelessWidget {
               ),
               Gaps.v20,
               AuthButton(
-                icon: const FaIcon(FontAwesomeIcons.apple),
-                text: "애플계정으로 시작하기",
-                onClickFn: _onClickEmail,
+                icon: const FaIcon(FontAwesomeIcons.github),
+                text: "깃허브로 시작하기",
+                onClickFn: (context) async {
+                  return await ref
+                      .read(githubProvider.notifier)
+                      .signIn(context);
+                },
               ),
             ],
           ),
