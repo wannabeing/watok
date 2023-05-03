@@ -11,6 +11,7 @@ import 'package:watok/features/onboard/interests_screen.dart';
 class LoginViewModel extends AsyncNotifier<void> {
   late AuthRepository _authRepository;
 
+  // 초기화
   @override
   FutureOr<void> build() {
     _authRepository = ref.read(authRepository);
@@ -37,6 +38,11 @@ class LoginViewModel extends AsyncNotifier<void> {
   }
 }
 
+/* 
+  View에서 사용할 수 있는 Provider
+  expose(노출)할 ViewModel과
+  그 ViewModel에 들어있는 데이터의 형식을 알려줌
+*/
 final loginProvider = AsyncNotifierProvider<LoginViewModel, void>(
   () => LoginViewModel(),
 );

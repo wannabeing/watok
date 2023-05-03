@@ -115,7 +115,8 @@ class _InterestsScreenState extends State<InterestsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String email = widget.loginArgs.email;
+    // final String email = widget.loginArgs.email;
+    const String email = "test";
 
     return Scaffold(
       appBar: AppBar(
@@ -149,11 +150,11 @@ class _InterestsScreenState extends State<InterestsScreen> {
                   ),
                 ),
                 Gaps.v20,
-                Opacity(
+                const Opacity(
                   opacity: 0.7,
                   child: Text(
                     "더 나은 비디오를 추천해드리겠습니다. $email 님!",
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: Sizes.size20,
                     ),
                   ),

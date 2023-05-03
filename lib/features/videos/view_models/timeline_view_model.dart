@@ -29,9 +29,9 @@ class TimeLineViewModel extends AsyncNotifier<List<VideoModel>> {
 }
 
 /* 
-  View로 데이터를 전달하는 Provider 선언
-  expose(노출)할 ViewModel(TimeLineView)과
-  그 ViewModel에 들어있는 데이터의 형식(List<ViewModel>)을 알려줌
+  View에서 사용할 수 있는 Provider
+  expose(노출)할 ViewModel과
+  그 ViewModel에 들어있는 데이터의 형식(Model)을 알려줌
 */
 final timelineProvider =
     AsyncNotifierProvider<TimeLineViewModel, List<VideoModel>>(

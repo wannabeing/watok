@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/widgets/darkTheme_config.dart';
-import '../../../constants/sizes.dart';
+import '../../../../common/widgets/darkTheme_config.dart';
+import '../../../../constants/sizes.dart';
 
 class FormButton extends StatelessWidget {
   const FormButton({

@@ -13,8 +13,8 @@ class AuthRepository {
       _firebaseAuth.authStateChanges(); // 유저 로그인 여부 확인
 
   // Firebase 유저생성 함수
-  Future<void> sendCreateUser(String email, String pw) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+  Future<UserCredential> sendCreateUser(String email, String pw) async {
+    return await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: pw,
     );

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
-import 'package:watok/features/authentication/birthday_screen.dart';
+import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/view_models/auth_view_model.dart';
-import 'package:watok/features/authentication/widgets/form_button.dart';
-
-import '../../constants/sizes.dart';
+import 'package:watok/features/authentication/views/birthday_screen.dart';
+import 'package:watok/features/authentication/views/widgets/form_button.dart';
 
 class PwScreen extends ConsumerStatefulWidget {
   const PwScreen({super.key});

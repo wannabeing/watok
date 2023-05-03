@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:watok/features/message/message_screen.dart';
-import 'package:watok/features/mypage/mypage_screen.dart';
+import 'package:watok/features/mypage/views/mypage_screen.dart';
 import 'package:watok/common/widgets/navigations/widgets/nav_create_video_btn.dart';
 import 'package:watok/common/widgets/navigations/widgets/nav_menu.dart';
 import 'package:watok/features/search/search_screen.dart';

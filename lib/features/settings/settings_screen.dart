@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/width_types.dart';
-import 'package:watok/features/authentication/login_screen.dart';
 import 'package:watok/features/authentication/repos/auth_repo.dart';
+import 'package:watok/features/authentication/views/login_screen.dart';
 import 'package:watok/features/videos/view_models/video_config_vm.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/constants/gaps.dart';
-import 'package:watok/features/authentication/pw_screen.dart';
-import 'package:watok/features/authentication/view_models/auth_view_model.dart';
-import 'package:watok/features/authentication/widgets/form_button.dart';
+import 'package:watok/constants/sizes.dart';
 
-import '../../constants/sizes.dart';
+import 'package:watok/features/authentication/view_models/auth_view_model.dart';
+import 'package:watok/features/authentication/views/widgets/form_button.dart';
+
+import 'pw_screen.dart';
 
 class EmailScreen extends ConsumerStatefulWidget {
   const EmailScreen({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../constants/gaps.dart';
-import '../../../constants/sizes.dart';
+import '../../../../constants/gaps.dart';
+import '../../../../constants/sizes.dart';
 
 class MyPageUserInfo extends StatefulWidget {
   const MyPageUserInfo({

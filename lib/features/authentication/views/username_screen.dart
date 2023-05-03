@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:watok/constants/gaps.dart';
-import 'package:watok/features/authentication/widgets/form_button.dart';
+import 'package:watok/constants/sizes.dart';
+import 'package:watok/features/authentication/views/widgets/form_button.dart';
 
-import '../../constants/sizes.dart';
 import 'email_screen.dart';
 
 class UsernameScreen extends StatefulWidget {

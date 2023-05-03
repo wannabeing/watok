@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:watok/constants/gaps.dart';
+import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/view_models/login_view_model.dart';
-import 'package:watok/features/authentication/widgets/form_button.dart';
+import 'package:watok/features/authentication/views/widgets/form_button.dart';
 import 'package:watok/features/onboard/interests_screen.dart';
-
-import '../../constants/gaps.dart';
-import '../../constants/sizes.dart';
 
 class LoginFormScreen extends ConsumerStatefulWidget {
   const LoginFormScreen({super.key});
@@ -21,14 +20,14 @@ class _LoginFormScreenState extends ConsumerState<LoginFormScreen> {
   Map<String, String> formData = {};
 
   // 🚀 로그인 함수
-  void _onSubmit() {
+  void _onSubmit() async {
     bool? isVal = _formKey.currentState?.validate(); // 폼 데이터유효성 검사
 
     if (isVal == true) {
       _formKey.currentState?.save();
 
       // 로그인 요청 함수
-      ref.read(loginProvider.notifier).userLogin(
+      await ref.read(loginProvider.notifier).userLogin(
             LoginArgs(
               email: formData["email"]!,
               pw: formData["pw"]!,
