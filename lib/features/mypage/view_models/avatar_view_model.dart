@@ -29,6 +29,8 @@ class AvatarViewModel extends AsyncNotifier<void> {
         await ref.read(userProvider.notifier).updateAvatar();
       },
     );
+    // Error 처리
+    if (state.hasError) {}
   }
 }
 

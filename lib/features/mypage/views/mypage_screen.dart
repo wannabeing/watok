@@ -5,7 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/mypage/view_models/user_view_model.dart';
-import 'package:watok/features/mypage/views/widgets/avatar_img.dart';
+import 'package:watok/features/mypage/views/widgets/avatar_wdt.dart';
+import 'package:watok/features/mypage/views/widgets/edit_user_profile_wdt.dart';
 import 'package:watok/features/mypage/views/widgets/mypage_userinfo.dart';
 import 'package:watok/features/mypage/views/widgets/persistent_tabbar.dart';
 import 'package:watok/features/settings/settings_screen.dart';
@@ -20,10 +21,20 @@ class MypageScreen extends ConsumerStatefulWidget {
 }
 
 class _MypageScreenState extends ConsumerState<MypageScreen> {
+  // 설정페이지 이동 함수
   void _onPressedGear() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const SettingsScreen(),
+      ),
+    );
+  }
+
+  // 프로필 수정페이지 이동 함수
+  void _onPressedUserPen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const EditUserProfileWdt(),
       ),
     );
   }
@@ -57,9 +68,11 @@ class _MypageScreenState extends ConsumerState<MypageScreen> {
                         title: Text(user.email),
                         actions: [
                           IconButton(
-                            onPressed: (() {}),
-                            icon: const FaIcon(FontAwesomeIcons.bell),
-                            iconSize: Sizes.size20,
+                            onPressed: _onPressedUserPen,
+                            icon: const FaIcon(
+                              FontAwesomeIcons.userPen,
+                              size: Sizes.size20,
+                            ),
                           ),
                           IconButton(
                             onPressed: _onPressedGear,
@@ -199,27 +212,27 @@ class _MypageScreenState extends ConsumerState<MypageScreen> {
                               ),
                             ),
                             Gaps.v20,
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
                                 horizontal: Sizes.size32,
                               ),
                               child: Text(
-                                "소개입니다소개입니다소개입니다소개입니다소개입니다소개입니다소개입니다소개입니다소개입니다",
+                                user.bio,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Gaps.v20,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                FaIcon(
+                              children: [
+                                const FaIcon(
                                   FontAwesomeIcons.link,
                                   size: Sizes.size16,
                                 ),
                                 Gaps.h10,
                                 Text(
-                                  "www.naver.com",
-                                  style: TextStyle(
+                                  user.link,
+                                  style: const TextStyle(
                                     fontSize: Sizes.size16,
                                     fontWeight: FontWeight.w500,
                                   ),

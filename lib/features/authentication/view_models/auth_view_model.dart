@@ -45,6 +45,8 @@ class AuthViewModel extends AsyncNotifier<void> {
         await newUserProvider.createAccount(userCredential);
       },
     );
+    // Error 처리
+    if (state.hasError) {}
   }
 }
 

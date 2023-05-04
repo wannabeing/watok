@@ -36,6 +36,9 @@ class UserRepository {
   /* 
     UPDATE 프로필
       - Firebase는 JSON 형식으로 저장해야하므로 data 인자를 Map으로 받음
+
+      - update()
+        문서의 데이터를 업데이트합니다. 데이터는 기존 문서 데이터와 병합됩니다.
   */
   Future<void> updateProfile(String uid, Map<String, dynamic> data) async {
     await _db.collection("users").doc(uid).update(data);

@@ -49,10 +49,9 @@ class AvatarWdt extends ConsumerWidget {
               backgroundColor: Colors.grey.shade500,
               foregroundImage: avatarUrl
                   ? NetworkImage(
-                      "https://firebasestorage.googleapis.com/v0/b/my-watok.appspot.com/o/avatars%2F$uid?alt=media&token=785eee75-56d1-41a9-b0f4-f18d04767bc0",
-                    )
+                      "https://firebasestorage.googleapis.com/v0/b/my-watok.appspot.com/o/avatars%2F$uid?alt=media&nocashing=${DateTime.now().toString()}",
+                    ) // NetworkImage는 이미지를 캐싱하고 있다.프로필이미지 변경시 실시간 확인을 위해 nocashing 필드를 추가함으로써, 이미지 캐싱을 하지 못하게 한다.
                   : null,
-              child: Text(name),
             ),
           );
   }

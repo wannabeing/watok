@@ -65,7 +65,21 @@ class UserViewModel extends AsyncNotifier<UserModel> {
     // UPDATE DB
     await _userRepository.updateProfile(
       state.value!.uid,
-      state.value!.toJSON(),
+      {"avatarUrl": true},
+    );
+  }
+
+  // 유저 프로필 업데이트 state 변경함수
+  Future<void> updateProfile(
+      String newName, String newBio, String newLink) async {
+    // UPDATAE state
+    state = AsyncValue.data(
+        state.value!.coverModel(name: newName, bio: newBio, link: newLink));
+
+    // UPDATE DB
+    await _userRepository.updateProfile(
+      state.value!.uid,
+      {"name": newName, "bio": newBio, "link": newLink},
     );
   }
 }

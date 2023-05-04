@@ -22,8 +22,8 @@ class UserModel {
       : uid = "",
         email = "whoami@who.am.i",
         name = "넌누구인가",
-        bio = "",
-        link = "",
+        bio = " ",
+        link = " ",
         birthday = "",
         avatarUrl = false;
 
