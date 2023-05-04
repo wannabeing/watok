@@ -5,16 +5,14 @@ import 'package:watok/features/videos/models/video_model.dart';
 
 class TimeLineViewModel extends AsyncNotifier<List<VideoModel>> {
   // Video 리스트
-  List<VideoModel> _list = [
-    VideoModel(title: "first"),
-  ];
+  final List<VideoModel> _list = [];
 
   // Video 추가하는 함수
   void addVideoModel() async {
     state = const AsyncValue.loading(); // state 로딩 상태 전환
     await Future.delayed(const Duration(seconds: 3)); // 3초 대기
-    final newVideo = VideoModel(title: "${DateTime.now()}"); // 새로운 비디오
-    _list = [..._list, newVideo]; // 새로운 비디오 추가
+    // final newVideo = VideoModel(title: "${DateTime.now()}", des: "설명"); // 새로운 비디오
+    // _list = [..._list, newVideo]; // 새로운 비디오 추가
 
     state = AsyncValue.data(_list); // state 상태 업데이트
   }

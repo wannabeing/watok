@@ -1,6 +1,8 @@
 import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:watok/constants/gaps.dart';
@@ -110,12 +112,18 @@ class _VideoCreateScreenState extends State<VideoCreateScreen>
     );
   }
 
-  // 디바이스 갤러리 함수
+  // 갤러리 영상 선택 시 함수
   Future<void> _initGallery() async {
     final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
-
     if (video == null) return;
-    if (!mounted) return; // context를 async에서 사용했을 때 생기는 문제때문에 추가
+
+    final videoSize = await video.length();
+    // 비디오 용량 100MB 제한
+    if (videoSize > 100000000) {
+      return await _showAlert();
+    }
+    // 페이지 이동
+    if (!mounted) return;
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -132,6 +140,28 @@ class _VideoCreateScreenState extends State<VideoCreateScreen>
   // 디바이스 카메라 함수 (임시)
   Future<void> _takePic() async {
     await ImagePicker().pickImage(source: ImageSource.camera);
+  }
+
+  // 용량 초과 알림창 함수
+  Future<void> _showAlert() async {
+    await showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text("전송실패"),
+          content: const Text("용량이 100MB를 초과했습니다."),
+          actions: [
+            CupertinoDialogAction(
+              child: Text(
+                "확인",
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              onPressed: () => context.pop(),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   // 사용자가 앱을 떠났음을 감지하는 함수
