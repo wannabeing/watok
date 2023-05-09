@@ -2,27 +2,50 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/features/videos/models/video_model.dart';
+import 'package:watok/features/videos/repos/video_repo.dart';
 
 class TimeLineViewModel extends AsyncNotifier<List<VideoModel>> {
-  // Video 리스트
-  final List<VideoModel> _list = [];
+  late List<VideoModel> _videoList; // Video 리스트
+  late VideoRepository _videoRepository;
 
-  // Video 추가하는 함수
-  void addVideoModel() async {
-    state = const AsyncValue.loading(); // state 로딩 상태 전환
-    await Future.delayed(const Duration(seconds: 3)); // 3초 대기
-    // final newVideo = VideoModel(title: "${DateTime.now()}", des: "설명"); // 새로운 비디오
-    // _list = [..._list, newVideo]; // 새로운 비디오 추가
-
-    state = AsyncValue.data(_list); // state 상태 업데이트
-  }
-
-  // build메소드에서는 화면이 받을 데이터의 초기화값을 return
+  // 비디오 리스트 초기화
   @override
   FutureOr<List<VideoModel>> build() async {
-    await Future.delayed(const Duration(seconds: 3));
+    _videoRepository = ref.read(videoRepository);
 
-    return _list;
+    _videoList = await _getVideos();
+    state = AsyncValue.data(_videoList);
+    return _videoList;
+  }
+
+  // 비디오 모델 2개 가져오는 함수
+  Future<List<VideoModel>> _getVideos({int? lastCreatedAt}) async {
+    final snapshot = await _videoRepository.getVideos(
+      lastCreatedAt: lastCreatedAt,
+    );
+    // 각각의 JSON을 VideoModel로 변환 후, 변수에 저장
+    final videos = snapshot.docs.map(
+      (doc) => VideoModel.fromJSON(
+        json: doc.data(),
+        videoId: doc.id,
+      ),
+    );
+
+    return videos.toList();
+  }
+
+  // 다음 비디오 2개 가져오기
+  Future<void> nextVideos() async {
+    final nextVideos =
+        await _getVideos(lastCreatedAt: _videoList.last.createdAt);
+    state = AsyncValue.data([..._videoList, ...nextVideos]);
+  }
+
+  // 비디오 새로고침
+  Future<void> refreshVideos() async {
+    final videos = await _getVideos();
+    _videoList = videos;
+    state = AsyncValue.data(videos);
   }
 }
 

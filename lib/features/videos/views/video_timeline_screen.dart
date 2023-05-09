@@ -13,7 +13,7 @@ class VideoTimelineScreen extends ConsumerStatefulWidget {
 class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   final PageController _pageController = PageController();
 
-  int _itemCount = 3;
+  int _itemCount = 0; // 비디오 개수
 
   // 비디오 끝났을 때 다음 비디오를 실행하는 함수
   void _onVideoFinished() {
@@ -26,6 +26,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
     );
   }
 
+  // 페이지 변경 함수
   void _onPageChange(page) {
     _pageController.animateToPage(
       page,
@@ -34,17 +35,20 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
       ),
       curve: Curves.linear,
     );
+    // 마지막 비디오일 경우, 비디오 더 가져오기
     if (page == _itemCount - 1) {
-      setState(() {
-        _itemCount += 3;
-      });
+      ref.watch(timelineProvider.notifier).nextVideos();
     }
   }
 
   // 새로고침 함수
-  Future<void> _onRefresh() {
-    // 원래는 여기에 API 요청을 넣어야함
-    return Future.delayed(const Duration(seconds: 2));
+  Future<void> _onRefresh() async {
+    return await ref.read(timelineProvider.notifier).refreshVideos();
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -55,6 +59,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // timelineProvider에서 비디오 가져옴
     return ref.watch(timelineProvider).when(
           loading: () => Center(
             child: CircularProgressIndicator(
@@ -69,21 +74,28 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
               ),
             ),
           ),
-          data: (videos) => RefreshIndicator(
-            onRefresh: _onRefresh,
-            color: Theme.of(context).primaryColor,
-            edgeOffset: 20,
-            child: PageView.builder(
-              controller: _pageController,
-              scrollDirection: Axis.vertical,
-              itemCount: videos.length,
-              onPageChanged: _onPageChange,
-              itemBuilder: (context, index) => VideoPostScreen(
-                index: index, // 몇번째 화면인지
-                onVideoFinished: _onVideoFinished, // 비디오가 끝났을 때 실행할 함수
+          data: (videoList) {
+            _itemCount = videoList.length; // 비디오 개수 초기화
+            return RefreshIndicator(
+              onRefresh: _onRefresh,
+              color: Theme.of(context).primaryColor,
+              edgeOffset: 20,
+              child: PageView.builder(
+                controller: _pageController,
+                scrollDirection: Axis.vertical,
+                itemCount: videoList.length,
+                onPageChanged: _onPageChange,
+                itemBuilder: (context, index) {
+                  final video = videoList[index];
+                  return VideoPostScreen(
+                    video: video, // 비디오 데이터
+                    index: index, // 몇번째 화면인지
+                    onVideoFinished: _onVideoFinished, // 비디오가 끝났을 때 실행할 함수
+                  );
+                },
               ),
-            ),
-          ),
+            );
+          },
         );
   }
 }

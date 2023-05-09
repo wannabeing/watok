@@ -34,6 +34,7 @@ class VideoUploadViewModel extends AsyncNotifier<void> {
       if (task.metadata != null) {
         await _videoRepository.saveVideo(
           VideoModel(
+            vid: "",
             uid: user.uid,
             uname: user.name,
             title: title,
@@ -48,6 +49,8 @@ class VideoUploadViewModel extends AsyncNotifier<void> {
       }
       // 메인페이지로 이동
       if (!context.mounted) return;
+      context.pop();
+      context.pop();
       context.go(MainNavScreen.route);
     });
   }

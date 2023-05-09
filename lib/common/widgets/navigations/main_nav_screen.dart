@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:watok/features/message/message_screen.dart';
@@ -14,7 +15,7 @@ import '../../../constants/gaps.dart';
 import '../../../constants/sizes.dart';
 import '../darkTheme_config.dart';
 
-class MainNavScreen extends StatefulWidget {
+class MainNavScreen extends ConsumerStatefulWidget {
   static const String route = "/home";
   final String tabName; // 이동할 탭명
   const MainNavScreen({
@@ -23,10 +24,10 @@ class MainNavScreen extends StatefulWidget {
   });
 
   @override
-  State<MainNavScreen> createState() => _MainNavScreenState();
+  ConsumerState<MainNavScreen> createState() => _MainNavScreenState();
 }
 
-class _MainNavScreenState extends State<MainNavScreen> {
+class _MainNavScreenState extends ConsumerState<MainNavScreen> {
   final List<String> _tabs = [
     "home",
     "search",

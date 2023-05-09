@@ -1,4 +1,5 @@
 class VideoModel {
+  String vid;
   String uid;
   String uname;
   String title;
@@ -10,6 +11,7 @@ class VideoModel {
   int createdAt;
 
   VideoModel({
+    required this.vid,
     required this.uid,
     required this.uname,
     required this.title,
@@ -24,6 +26,7 @@ class VideoModel {
   // 비디오모델 JSON 변환 메소드
   Map<String, dynamic> toJSON() {
     return {
+      "vid": vid,
       "uid": uid,
       "uname": uname,
       "title": title,
@@ -35,4 +38,18 @@ class VideoModel {
       "createdAt": createdAt,
     };
   }
+
+  // JSON -> 비디오모델 변환 메소드
+  VideoModel.fromJSON(
+      {required Map<String, dynamic> json, required String videoId})
+      : vid = videoId,
+        uid = json["uid"],
+        uname = json["uname"],
+        title = json["title"],
+        desc = json["desc"],
+        fileUrl = json["fileUrl"],
+        thumbUrl = json["thumbUrl"],
+        likes = json["likes"],
+        comments = json["comments"],
+        createdAt = json["createdAt"];
 }

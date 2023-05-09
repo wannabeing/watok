@@ -284,7 +284,7 @@ class _VideoCreateScreenState extends State<VideoCreateScreen>
             ),
             IconButton(
               color: Colors.white,
-              onPressed: _takePic,
+              onPressed: () {},
               icon: const FaIcon(FontAwesomeIcons.camera),
             ),
             IconButton(

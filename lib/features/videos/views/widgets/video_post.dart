@@ -7,15 +7,20 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/constants/width_types.dart';
+import 'package:watok/features/videos/models/video_model.dart';
 import 'package:watok/features/videos/view_models/video_config_vm.dart';
 import 'package:watok/features/videos/views/widgets/video_comments.dart';
 import 'package:watok/features/videos/views/widgets/video_icon.dart';
+import 'package:watok/features/videos/views/widgets/video_like.dart';
 
 class VideoPostScreen extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
+  final VideoModel video;
+
   const VideoPostScreen({
     super.key,
+    required this.video,
     required this.onVideoFinished,
     required this.index,
   });
@@ -30,7 +35,6 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
   bool _isMuted = false;
 
   late final VideoPlayerController _videoPlayerController;
-
   late final AnimationController _animationController;
 
   void _onVideoChange() {
@@ -43,9 +47,13 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
     }
   }
 
-  void _initVideoPlayer() async {
+  Future<void> _initVideoPlayer() async {
+    /* 로컬에 있는 영상 사용할 때
     _videoPlayerController =
         VideoPlayerController.asset("assets/videos/goodhair.mp4");
+    */
+    _videoPlayerController =
+        VideoPlayerController.network(widget.video.fileUrl);
     await _videoPlayerController.initialize(); // 비디오 초기화
     await _videoPlayerController.setLooping(true); // 반복 재생
 
@@ -146,13 +154,13 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
   @override
   void dispose() {
     _videoPlayerController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaWidth = MediaQuery.of(context).size.width;
+    final video = widget.video;
 
     return VisibilityDetector(
       key: Key("${widget.index}"),
@@ -167,6 +175,15 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
                     ? VideoPlayer(_videoPlayerController)
                     : Container(
                         color: Colors.black,
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          height: 50,
+                          width: 50,
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                            strokeWidth: 4,
+                          ),
+                        ),
                       ),
               ),
               // 📕 영상 재생/멈춤 감지
@@ -219,10 +236,10 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
                 left: kIsWeb ? mediaWidth * 0.07 : 15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
-                      "@업로드계정",
-                      style: TextStyle(
+                      "@${video.uname}",
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: Sizes.size20,
                         fontWeight: FontWeight.bold,
@@ -230,16 +247,16 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
                     ),
                     Gaps.v16,
                     Text(
-                      "제목이 들어가야죠",
-                      style: TextStyle(
+                      video.title,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: Sizes.size18,
                       ),
                     ),
                     Gaps.v10,
                     Text(
-                      "#123 #456 #789 #alsdkfjewll",
-                      style: TextStyle(
+                      video.desc,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: Sizes.size16,
                         fontWeight: FontWeight.bold,
@@ -273,21 +290,21 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
                     Gaps.v24,
                     CircleAvatar(
                       maxRadius: Sizes.size28,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundImage: const NetworkImage(
-                          "https://avatars.githubusercontent.com/u/79440384"),
+                      backgroundColor: Colors.grey.shade500,
+                      foregroundImage: NetworkImage(
+                        "https://firebasestorage.googleapis.com/v0/b/my-watok.appspot.com/o/avatars%2F${video.uid}?alt=media",
+                      ),
                     ),
                     Gaps.v32,
-                    const VideoIcon(
-                      icon: FontAwesomeIcons.solidHeart,
-                      text: "3.3M",
+                    VideoLikeWdgt(
+                      video: video,
                     ),
                     Gaps.v24,
                     GestureDetector(
                       onTap: () => _onCommentsClick(context),
-                      child: const VideoIcon(
+                      child: VideoIcon(
                         icon: FontAwesomeIcons.solidCommentDots,
-                        text: "22",
+                        text: "${video.comments}",
                       ),
                     ),
                     Gaps.v24,

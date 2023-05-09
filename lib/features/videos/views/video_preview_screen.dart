@@ -9,7 +9,6 @@ import 'package:video_player/video_player.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/views/widgets/form_button.dart';
-import 'package:watok/features/videos/view_models/video_timeline_vm.dart';
 import 'package:watok/features/videos/view_models/video_upload_vm.dart';
 
 class VideoArgs {
@@ -41,7 +40,7 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   bool _isSaved = false; // 녹화한 영상 저장했는지 (false: 저장 안했음)
   late final bool _isPicked =
       widget.videoArgs.isPicked; // 내 디바이스 갤러리에서 가져왔는지 (false: 안가져왔음)
-
+  bool _isHorizontal = false; // 영상이 가로인지
   // 폼 데이터 변수
   final Map<String, String> formData = {};
 
@@ -55,6 +54,12 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
     await _videoPlayerController.setVolume(0);
     await _videoPlayerController.play();
 
+    // 가로/세로 영상인지 구분
+    if (_videoPlayerController.value.size.width >
+        _videoPlayerController.value.size.height) {
+      _isHorizontal = true;
+    }
+
     setState(() {});
   }
 
@@ -67,11 +72,6 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
     ); // 녹화영상 디바이스에 저장
     _isSaved = true; // 녹화한 영상 저장상태 설정
     setState(() {});
-  }
-
-  // 영상 업로드 함수
-  void _uploadVideo() {
-    ref.read(timelineProvider.notifier).addVideoModel();
   }
 
   void _onSubmit() async {
@@ -129,15 +129,15 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
                   ? const FaIcon(FontAwesomeIcons.check)
                   : const FaIcon(FontAwesomeIcons.download),
             ),
-          IconButton(
-            onPressed:
-                ref.watch(timelineProvider).isLoading ? () {} : _uploadVideo,
-            icon: ref.watch(timelineProvider).isLoading
-                ? CircularProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                  )
-                : const FaIcon(FontAwesomeIcons.arrowRight),
-          ),
+          // IconButton(
+          //   onPressed:
+          //       ref.watch(timelineProvider).isLoading ? () {} : _uploadVideo,
+          //   icon: ref.watch(timelineProvider).isLoading
+          //       ? CircularProgressIndicator(
+          //           color: Theme.of(context).primaryColor,
+          //         )
+          //       : const FaIcon(FontAwesomeIcons.arrowRight),
+          // ),
         ],
       ),
       body: _videoPlayerController.value.isInitialized
@@ -152,7 +152,9 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 4,
+                      height: _isHorizontal
+                          ? MediaQuery.of(context).size.height / 4
+                          : MediaQuery.of(context).size.height / 2,
                       child: VideoPlayer(_videoPlayerController),
                     ),
                     Gaps.v16,

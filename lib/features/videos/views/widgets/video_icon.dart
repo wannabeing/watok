@@ -6,26 +6,37 @@ import 'package:watok/constants/sizes.dart';
 class VideoIcon extends StatelessWidget {
   const VideoIcon({
     super.key,
+    this.selectedColor,
     required this.icon,
     required this.text,
   });
 
   final IconData icon;
   final String text;
+  final selectedColor;
 
   @override
   Widget build(BuildContext context) {
     bool isNull = false;
+
     if (text == "null") {
       isNull = true;
     }
     return Column(
       children: [
-        FaIcon(
-          icon,
-          color: Colors.white,
-          size: Sizes.size40,
-        ),
+        if (selectedColor != null) ...[
+          FaIcon(
+            icon,
+            color: selectedColor,
+            size: Sizes.size40,
+          ),
+        ] else ...[
+          FaIcon(
+            icon,
+            color: Colors.white,
+            size: Sizes.size40,
+          ),
+        ],
         Gaps.v5,
         if (!isNull)
           Text(

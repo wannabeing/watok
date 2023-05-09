@@ -21,9 +21,9 @@ class UserModel {
   UserModel.empty()
       : uid = "",
         email = "whoami@who.am.i",
-        name = "넌누구인가",
-        bio = " ",
-        link = " ",
+        name = "익명",
+        bio = "자기소개",
+        link = "링크",
         birthday = "",
         avatarUrl = false;
 
