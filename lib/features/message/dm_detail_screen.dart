@@ -20,7 +20,9 @@ class DmDetailScreen extends StatefulWidget {
 }
 
 class _DmDetailScreenState extends State<DmDetailScreen> {
+  final TextEditingController _textController = TextEditingController();
   bool _isWriting = false; // 입력창 활성화 여부
+  String _text = '';
 
   // 인풋창 클릭 함수
   void _onTapInput() {
@@ -36,6 +38,26 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
     // 인풋창 상태 비활성화
     setState(() {
       _isWriting = false;
+    });
+  }
+
+  void _onSubmit() {
+    if (_text == '') return;
+
+    // 텍스트필드 초기화
+    _textController.text = '';
+    setState(() {
+      _text = '';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _textController.addListener(() {
+      setState(() {
+        _text = _textController.text;
+      });
     });
   }
 
@@ -160,10 +182,13 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
                         child: SizedBox(
                           height: Sizes.size52,
                           child: TextField(
+                            controller: _textController,
                             onTap: _onTapInput,
                             expands: true,
                             maxLines: null,
                             minLines: null,
+                            autocorrect: false,
+                            onEditingComplete: _onSubmit, // 키보드 입력창에서 submit
                             textInputAction: TextInputAction.newline,
                             cursorColor: Theme.of(context).primaryColor,
                             decoration: InputDecoration(
@@ -183,7 +208,7 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
                                     Gaps.h10,
                                     if (_isWriting)
                                       GestureDetector(
-                                        onTap: _onTapBody,
+                                        onTap: _onSubmit,
                                         child: FaIcon(
                                           FontAwesomeIcons.circleArrowUp,
                                           color: Theme.of(context).primaryColor,

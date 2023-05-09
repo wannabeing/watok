@@ -8,23 +8,34 @@ import 'package:watok/features/mypage/view_models/user_view_model.dart';
   Firebase에게 요청 역할만 한다.
   때문에 void 추가 
 */
-class AuthViewModel extends AsyncNotifier<void> {
+class AuthViewModel extends AsyncNotifier<bool> {
   // Firebase와 연결되어있는 Repo 생성
   late final AuthRepository _authRepository;
 
   // Repo 초기화
   @override
-  FutureOr<void> build() {
+  FutureOr<bool> build() {
     _authRepository = ref.read(authRepository);
+    return true;
+  }
+
+  // 이메일 중복 확인 함수
+  FutureOr<bool> isValidEmail() async {
+    final form = ref.read(authForm); // 사용자가 입력한 id/pw가 저장된 Provider
+    state = const AsyncValue.loading(); // SET 로딩
+
+    final check = await _authRepository.emailCheck(form["email"]); // 이메일 체크
+    state = AsyncValue.data(check); // SET OFF 로딩
+    return check; // 이메일 중복여부 return
   }
 
   // 계정생성 함수
   Future<void> createUser() async {
-    // loading 상태 전환
-    state = const AsyncValue.loading();
-
     // 사용자가 입력한 id/pw가 저장된 Provider
     final form = ref.read(authForm);
+
+    // loading 상태 전환
+    state = const AsyncValue.loading();
 
     // 새로운 사용자 정보를 DB에 담을 Provider
     final newUserProvider = ref.read(userProvider.notifier);
@@ -41,8 +52,10 @@ class AuthViewModel extends AsyncNotifier<void> {
           form["email"],
           form["pw"],
         );
+
         // 유저가 생성되었다면 유저정보 저장 provider 호출
         await newUserProvider.createAccount(userCredential);
+        return true;
       },
     );
     // Error 처리
@@ -58,6 +71,6 @@ final authForm = StateProvider((ref) => {});
   expose(노출)할 ViewModel과
   그 ViewModel에 들어있는 데이터의 형식을 알려줌
 */
-final authProvider = AsyncNotifierProvider<AuthViewModel, void>(
+final authProvider = AsyncNotifierProvider<AuthViewModel, bool>(
   () => AuthViewModel(),
 );

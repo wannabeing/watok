@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/constants/gaps.dart';
@@ -21,20 +22,28 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   String _email = '';
 
   // 🚀 이메일 제출 함수
-  void _onSumbit() {
+  void _onSumbit() async {
     if (_email.isEmpty || _isEmailValid() != null) return;
 
     // auth state에 email 저장
     ref.read(authForm.notifier).state = {
       "email": _email,
     };
-    // 페이지 이동
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const PwScreen(),
-      ),
-    );
+    // 존재하는 email인지 체크
+    final emailCheck = await ref.read(authProvider.notifier).isValidEmail();
+
+    if (emailCheck) {
+      // 페이지 이동
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const PwScreen(),
+        ),
+      );
+    } else {
+      _onAlert();
+    }
   }
 
   // 🚀 이메일 정규표현식 함수
@@ -52,6 +61,25 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
   // 🚀 Scaffold 영역 클릭 함수
   void _onClickScaffold() {
     FocusScope.of(context).unfocus();
+  }
+
+  // 🚀 중복이메일 알람창
+  void _onAlert() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text("중복된 이메일"),
+          content: const Text("이미 존재하는 이메일입니다."),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text("확인"),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -73,60 +101,79 @@ class _EmailScreenState extends ConsumerState<EmailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _onClickScaffold, // input창 이외에 곳 클릭 시
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "회원가입",
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Gaps.v60,
-              const Text(
-                "사용할 이메일",
-                style: TextStyle(
-                  fontSize: Sizes.size24,
-                  fontWeight: FontWeight.w600,
-                ),
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: _onClickScaffold, // input창 이외에 곳 클릭 시
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "회원가입",
               ),
-              Gaps.v16,
-              TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress, // 키보드 입력창 email형식 제공
-                autocorrect: false, // 키보드 입력창에서 자동완성 false
-                onEditingComplete: _onSumbit, // 키보드 입력창에서 submit
-                decoration: InputDecoration(
-                  hintText: "사용할 이메일을 입력해주세요.",
-                  errorText: _isEmailValid(), // 이메일 정규표현식 함수 적용
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey.shade400,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gaps.v60,
+                  const Text(
+                    "사용할 이메일",
+                    style: TextStyle(
+                      fontSize: Sizes.size24,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+                  Gaps.v16,
+                  TextField(
+                    controller: _emailController,
+                    keyboardType:
+                        TextInputType.emailAddress, // 키보드 입력창 email형식 제공
+                    autocorrect: false, // 키보드 입력창에서 자동완성 false
+                    onEditingComplete: _onSumbit, // 키보드 입력창에서 submit
+                    decoration: InputDecoration(
+                      hintText: "사용할 이메일을 입력해주세요.",
+                      errorText: _isEmailValid(), // 이메일 정규표현식 함수 적용
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
                     ),
+                    cursorColor: Theme.of(context).primaryColor,
                   ),
-                ),
-                cursorColor: Theme.of(context).primaryColor,
+                  Gaps.v16,
+                  GestureDetector(
+                    onTap: _onSumbit,
+                    child: FormButton(
+                        btnText: "다음",
+                        disabled: _email.isEmpty || _isEmailValid() != null),
+                  ),
+                ],
               ),
-              Gaps.v16,
-              GestureDetector(
-                onTap: _onSumbit,
-                child: FormButton(
-                    btnText: "다음",
-                    disabled: _email.isEmpty || _isEmailValid() != null),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
+        // 🔥 로딩창
+        if (ref.watch(authProvider).isLoading) ...[
+          Opacity(
+            opacity: 0.3,
+            child: SizedBox.expand(
+              child: Container(color: Colors.black),
+            ),
+          ),
+          Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

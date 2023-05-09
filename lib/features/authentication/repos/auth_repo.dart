@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/features/onboard/interests_screen.dart';
@@ -11,6 +13,21 @@ class AuthRepository {
   bool get isLogin => user != null;
   Stream<User?> listenStream() =>
       _firebaseAuth.authStateChanges(); // 유저 로그인 여부 확인
+
+  // 이메일계정 중복확인 함수
+  FutureOr<bool> emailCheck(String email) async {
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: "password");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
+  }
 
   // Firebase 유저생성 함수
   Future<UserCredential> sendCreateUser(String email, String pw) async {
