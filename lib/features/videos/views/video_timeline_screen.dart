@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/videos/view_models/video_timeline_vm.dart';
 import 'package:watok/features/videos/views/widgets/video_post.dart';
 
@@ -46,6 +47,18 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
     return await ref.read(timelineProvider.notifier).refreshVideos();
   }
 
+  // 비디오 없을 때
+  Widget _videoIsEmpty() {
+    return const Center(
+        child: Text(
+      "업로드된 비디오가 존재하지 않습니다.",
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: Sizes.size18,
+      ),
+    ));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +89,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
           ),
           data: (videoList) {
             _itemCount = videoList.length; // 비디오 개수 초기화
+            if (videoList.isEmpty) return _videoIsEmpty(); // 비디오가 없을 경우
             return RefreshIndicator(
               onRefresh: _onRefresh,
               color: Theme.of(context).primaryColor,

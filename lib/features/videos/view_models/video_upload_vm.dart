@@ -8,6 +8,7 @@ import 'package:watok/common/widgets/navigations/main_nav_screen.dart';
 import 'package:watok/features/mypage/view_models/user_view_model.dart';
 import 'package:watok/features/videos/models/video_model.dart';
 import 'package:watok/features/videos/repos/video_repo.dart';
+import 'package:watok/features/videos/view_models/video_timeline_vm.dart';
 
 class VideoUploadViewModel extends AsyncNotifier<void> {
   late VideoRepository _videoRepository;
@@ -47,10 +48,10 @@ class VideoUploadViewModel extends AsyncNotifier<void> {
           ),
         );
       }
+      // 타임라인 새로고침
+      await ref.read(timelineProvider.notifier).refreshVideos();
       // 메인페이지로 이동
       if (!context.mounted) return;
-      context.pop();
-      context.pop();
       context.go(MainNavScreen.route);
     });
   }

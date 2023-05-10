@@ -5,9 +5,10 @@ import 'package:watok/common/widgets/navigations/main_nav_screen.dart';
 import 'package:watok/features/authentication/repos/auth_repo.dart';
 import 'package:watok/features/authentication/views/login_screen.dart';
 import 'package:watok/features/authentication/views/sign_up_screen.dart';
-import 'package:watok/features/message/activity_screen.dart';
-import 'package:watok/features/message/dm_detail_screen.dart';
-import 'package:watok/features/message/dm_screen.dart';
+import 'package:watok/features/message/views/activity_screen.dart';
+import 'package:watok/features/message/views/dm_detail_screen.dart';
+import 'package:watok/features/message/views/dm_screen.dart';
+import 'package:watok/features/message/views/dm_select_screen.dart';
 import 'package:watok/features/onboard/interests_screen.dart';
 
 import 'features/videos/views/video_create_screen.dart';
@@ -61,6 +62,11 @@ final goRouterProvider = Provider((ref) {
         path: DmScreen.route,
         builder: (context, state) => const DmScreen(),
         routes: [
+          GoRoute(
+            path: DmSelectScreen.route,
+            name: DmSelectScreen.name,
+            builder: (context, state) => const DmSelectScreen(),
+          ),
           GoRoute(
             path: DmDetailScreen.route,
             name: DmDetailScreen.name,

@@ -42,7 +42,7 @@ class VideoModel {
   // JSON -> 비디오모델 변환 메소드
   VideoModel.fromJSON(
       {required Map<String, dynamic> json, required String videoId})
-      : vid = videoId,
+      : vid = json["vid"],
         uid = json["uid"],
         uname = json["uname"],
         title = json["title"],

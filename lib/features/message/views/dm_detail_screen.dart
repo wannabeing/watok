@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/gaps.dart';
+import 'package:watok/constants/sizes.dart';
+import 'package:watok/features/authentication/repos/auth_repo.dart';
+import 'package:watok/features/message/vms/msg_vm.dart';
 
-import '../../common/widgets/darkTheme_config.dart';
-import '../../constants/sizes.dart';
-
-class DmDetailScreen extends StatefulWidget {
+class DmDetailScreen extends ConsumerStatefulWidget {
   static const name = "dmDetail";
   static const route = ":chatId";
   final String chatId;
@@ -16,11 +19,12 @@ class DmDetailScreen extends StatefulWidget {
   });
 
   @override
-  State<DmDetailScreen> createState() => _DmDetailScreenState();
+  ConsumerState<DmDetailScreen> createState() => _DmDetailScreenState();
 }
 
-class _DmDetailScreenState extends State<DmDetailScreen> {
+class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
   final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   bool _isWriting = false; // 입력창 활성화 여부
   String _text = '';
 
@@ -41,14 +45,23 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
     });
   }
 
-  void _onSubmit() {
+  void _onSubmit() async {
     if (_text == '') return;
+
+    await ref.read(msgViewModel.notifier).sendMsg(_text);
 
     // 텍스트필드 초기화
     _textController.text = '';
     setState(() {
       _text = '';
     });
+  }
+
+  // 스크롤 끝까지 했을 경우
+  void _onMaxScroll() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {}
   }
 
   @override
@@ -59,6 +72,17 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
         _text = _textController.text;
       });
     });
+
+    _scrollController.addListener(() {
+      _onMaxScroll();
+    });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -123,47 +147,80 @@ class _DmDetailScreenState extends State<DmDetailScreen> {
         onTap: _onTapBody,
         child: Stack(
           children: [
-            ListView.separated(
-              padding: const EdgeInsets.symmetric(
-                vertical: Sizes.size24,
-                horizontal: Sizes.size20,
-              ),
-              itemBuilder: (context, index) {
-                final isMyMsg = index % 2 == 0;
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment:
-                      isMyMsg ? MainAxisAlignment.end : MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(Sizes.size10),
-                      decoration: BoxDecoration(
-                          color: isMyMsg ? Colors.blue : Colors.grey,
-                          borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(Sizes.size16),
-                            topRight: const Radius.circular(Sizes.size16),
-                            bottomLeft: isMyMsg
-                                ? const Radius.circular(Sizes.size16)
-                                : const Radius.circular(Sizes.size5),
-                            bottomRight: !isMyMsg
-                                ? const Radius.circular(Sizes.size16)
-                                : const Radius.circular(Sizes.size5),
-                          )),
-                      child: const Text(
-                        "자니?",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: Sizes.size18,
-                        ),
+            ref.watch(msgStremViewModel).when(
+                  data: (msgList) {
+                    final user = ref.read(authRepository).user;
+                    // 리스트뷰 끝으로 이동
+                    SchedulerBinding.instance.addPostFrameCallback((_) {
+                      _scrollController
+                          .jumpTo(_scrollController.position.maxScrollExtent);
+                    });
+
+                    return ListView.separated(
+                      controller: _scrollController,
+                      padding: EdgeInsets.only(
+                        top: Sizes.size24,
+                        bottom: MediaQuery.of(context).padding.bottom +
+                            Sizes.size96,
+                        left: Sizes.size20,
+                        right: Sizes.size20,
+                      ),
+                      itemBuilder: (context, index) {
+                        final msg = msgList[index]; // 각 메시지
+                        final isMyMsg = msg.uid == user!.uid; // 나의 메시지 체크
+
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: isMyMsg
+                              ? MainAxisAlignment.end
+                              : MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(Sizes.size10),
+                              decoration: BoxDecoration(
+                                  color: isMyMsg ? Colors.blue : Colors.grey,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft:
+                                        const Radius.circular(Sizes.size16),
+                                    topRight:
+                                        const Radius.circular(Sizes.size16),
+                                    bottomLeft: isMyMsg
+                                        ? const Radius.circular(Sizes.size16)
+                                        : const Radius.circular(Sizes.size5),
+                                    bottomRight: !isMyMsg
+                                        ? const Radius.circular(Sizes.size16)
+                                        : const Radius.circular(Sizes.size5),
+                                  )),
+                              child: Text(
+                                msg.text,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: Sizes.size18,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                      separatorBuilder: (context, index) => Gaps.v10,
+                      itemCount: msgList.length,
+                    );
+                  },
+                  loading: () => Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  error: (error, stackTrace) => Center(
+                    child: Text(
+                      "$error",
+                      style: const TextStyle(
+                        color: Colors.white,
                       ),
                     ),
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) => Gaps.v10,
-              itemCount: 4,
-            ),
+                  ),
+                ),
             Positioned(
               bottom: 0,
               width: MediaQuery.of(context).size.width,

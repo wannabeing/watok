@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:watok/features/message/dm_detail_screen.dart';
+import 'package:watok/constants/sizes.dart';
+import 'package:watok/features/message/views/dm_detail_screen.dart';
+import 'package:watok/features/message/views/dm_select_screen.dart';
 
-import '../../constants/sizes.dart';
-
-class DmScreen extends StatefulWidget {
+class DmScreen extends ConsumerStatefulWidget {
   static const String route = "/dm";
 
   const DmScreen({super.key});
 
   @override
-  State<DmScreen> createState() => _DmScreenState();
+  ConsumerState<DmScreen> createState() => _DmScreenState();
 }
 
-class _DmScreenState extends State<DmScreen> {
+class _DmScreenState extends ConsumerState<DmScreen> {
   final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
 
   final List<int> _chatsList = [];
@@ -59,7 +60,7 @@ class _DmScreenState extends State<DmScreen> {
         ),
       ),
       subtitle: const Text(
-        "자니?",
+        "ㅁㅁ?",
         style: TextStyle(
           fontWeight: FontWeight.w600,
           fontSize: Sizes.size16,
@@ -76,13 +77,17 @@ class _DmScreenState extends State<DmScreen> {
 
   // 채팅 추가 함수
   void _addDM() {
-    if (_key.currentState != null) {
-      _key.currentState!.insertItem(
-        _chatsList.length,
-        duration: _duration,
-      );
-      _chatsList.add(_chatsList.length);
-    }
+    context.pushNamed(DmSelectScreen.name);
+
+    /* 기존 애니메이션
+      if (_key.currentState != null) {
+        _key.currentState!.insertItem(
+          _chatsList.length,
+          duration: _duration,
+        );
+        _chatsList.add(_chatsList.length);
+      }
+    */
   }
 
   // 채팅 삭제 함수

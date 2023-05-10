@@ -41,14 +41,14 @@ export const listenFirestore = functions
       임시저장소에 있는 썸네일 jpg파일을 스토리지에 thumbs/videoID.jpg로 저장한다.
         
       스토리지에 저장된 파일을 public 설정으로 변경한 뒤,
-      기존 DB 비디오 모델 thumbsUrl에 스토리지 jpg파일링크로 업데이트한다.
+      기존 DB 비디오 모델 vid와 thumbsUrl에 스토리지 jpg파일링크를 업데이트한다.
     */
     const [file, _] = await storage.bucket().upload(`/tmp/${snapshot.id}.jpg`, {
       destination: `thumbs/${snapshot.id}.jpg`,
     });
 
     await file.makePublic();
-    await snapshot.ref.update({ thumbUrl: file.publicUrl() });
+    await snapshot.ref.update({ vid: snapshot.id, thumbUrl: file.publicUrl() });
 
     /*
       - 코드설명  

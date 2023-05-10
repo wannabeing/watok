@@ -73,6 +73,13 @@ class VideoRepository {
     final isLike = await _db.collection("likes").doc("${vid}999$uid").get();
     return isLike.exists;
   }
+
+  // GETTER 비디오 함수
+  Future<Map<String, dynamic>?> getVideo({required String vid}) async {
+    if (vid == "") return null;
+    final video = await _db.collection("videos").doc(vid).get();
+    return video.data();
+  }
 }
 
 final videoRepository = Provider((ref) => VideoRepository());

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:watok/constants/sizes.dart';
-import 'package:watok/features/message/activity_screen.dart';
-import 'package:watok/features/message/dm_screen.dart';
+import 'package:watok/features/message/views/activity_screen.dart';
+import 'package:watok/features/message/views/dm_screen.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});

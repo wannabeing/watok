@@ -43,6 +43,8 @@ class TimeLineViewModel extends AsyncNotifier<List<VideoModel>> {
 
   // 비디오 새로고침
   Future<void> refreshVideos() async {
+    state = const AsyncValue.loading();
+
     final videos = await _getVideos();
     _videoList = videos;
     state = AsyncValue.data(videos);

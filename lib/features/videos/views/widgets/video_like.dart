@@ -25,17 +25,30 @@ class _VideoLikeWdgtState extends ConsumerState<VideoLikeWdgt> {
 
     setState(() {
       if (videoLike) {
-        _likes--;
+        _likes -= 1;
       } else {
-        _likes++;
+        _likes += 1;
       }
     });
+  }
+
+  // init 좋아요 개수 가져오기
+  Future<void> _initLikeInfo() async {
+    // DB에서 비디오 정보 가져오기
+    final video =
+        await ref.read(videoPostProvider(widget.video.vid).notifier).getVideo();
+    if (video != null) {
+      _likes = video.likes;
+      setState(() {});
+    }
+    return;
   }
 
   @override
   void initState() {
     super.initState();
-    _likes = widget.video.likes;
+
+    _initLikeInfo(); // 최신 좋아요 개수 가져오기
   }
 
   @override

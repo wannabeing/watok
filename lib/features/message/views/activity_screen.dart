@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/gaps.dart';
-import '../../constants/sizes.dart';
+import 'package:watok/constants/sizes.dart';
 
 class ActivityScreen extends StatefulWidget {
   static const String route = "/activity";

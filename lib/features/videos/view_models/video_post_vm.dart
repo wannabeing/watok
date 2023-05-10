@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watok/features/authentication/repos/auth_repo.dart';
+import 'package:watok/features/videos/models/video_model.dart';
 import 'package:watok/features/videos/repos/video_repo.dart';
 
 class VideoPostViewModel extends FamilyAsyncNotifier<bool, String> {
@@ -27,12 +28,22 @@ class VideoPostViewModel extends FamilyAsyncNotifier<bool, String> {
   // 비디오 좋아요 기능
   Future<void> likeVideo() async {
     final user = ref.read(authRepository).user!; // 현재 로그인 유저
+
     await _videoRepository.likeVideo(
       vid: _videoId,
       uid: user.uid,
     );
     _isLike = !_isLike;
     state = AsyncValue.data(_isLike);
+  }
+
+  // 비디오 정보 가져오기 함수
+  Future<VideoModel?> getVideo() async {
+    final fromDB = await _videoRepository.getVideo(vid: _videoId);
+    if (fromDB != null) {
+      return VideoModel.fromJSON(json: fromDB, videoId: _videoId);
+    }
+    return null;
   }
 }
 

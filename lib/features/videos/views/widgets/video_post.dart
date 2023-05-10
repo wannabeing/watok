@@ -56,6 +56,7 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
         VideoPlayerController.network(widget.video.fileUrl);
     await _videoPlayerController.initialize(); // 비디오 초기화
     await _videoPlayerController.setLooping(true); // 반복 재생
+    await _videoPlayerController.play();
 
     // 웹으로 컴파일되었다면 음소거
     if (kIsWeb) {
@@ -65,7 +66,7 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
     setState(() {});
   }
 
-  void _onVisibilityChanged(VisibilityInfo info) {
+  void _onVisibilityChanged(VisibilityInfo info) async {
     // 위젯이 마운트되지 않았다면 아무작업도 하지 않음
     if (!mounted) return;
 
@@ -73,7 +74,7 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
     if (info.visibleFraction == 1 &&
         !_isClick &&
         !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
+      await _videoPlayerController.play();
     }
     // 다른 화면전환을 했는데도, 영상이 재생 중이면 영상정지
     if (info.visibleFraction == 0 && _videoPlayerController.value.isPlaying) {
@@ -82,15 +83,15 @@ class VideoPostScreenState extends ConsumerState<VideoPostScreen>
   }
 
   // 비디오 실행/정지 함수
-  void _onPlayStop() {
+  void _onPlayStop() async {
     if (!mounted) return;
 
     if (_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.pause();
-      _animationController.reverse();
+      await _videoPlayerController.pause();
+      await _animationController.reverse();
     } else {
-      _videoPlayerController.play();
-      _animationController.forward();
+      await _videoPlayerController.play();
+      await _animationController.forward();
     }
     setState(() {
       _isClick = !_isClick;
