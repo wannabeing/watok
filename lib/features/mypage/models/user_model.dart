@@ -1,11 +1,12 @@
 class UserModel {
-  final String uid;
-  final String email;
-  final String name;
-  final String bio;
-  final String link;
-  final String birthday;
-  final bool avatarUrl;
+  String uid;
+  String email;
+  String name;
+  String bio;
+  String link;
+  String birthday;
+  bool avatarUrl;
+  int createdAt;
 
   UserModel({
     required this.uid,
@@ -15,6 +16,7 @@ class UserModel {
     required this.link,
     required this.birthday,
     required this.avatarUrl,
+    required this.createdAt,
   });
 
   // 유저모델 빈 생성자 생성 메소드
@@ -25,7 +27,8 @@ class UserModel {
         bio = "자기소개",
         link = "링크",
         birthday = "",
-        avatarUrl = false;
+        avatarUrl = false,
+        createdAt = DateTime.now().millisecondsSinceEpoch;
 
   // 유저모델 JSON 변환 메소드
   Map<String, dynamic> toJSON() {
@@ -37,6 +40,7 @@ class UserModel {
       "link": link,
       "birthday": birthday,
       "avatarUrl": avatarUrl,
+      "createdAt": createdAt,
     };
   }
 
@@ -48,7 +52,8 @@ class UserModel {
         bio = json["bio"],
         link = json["link"],
         birthday = json["birthday"],
-        avatarUrl = json["avatarUrl"];
+        avatarUrl = json["avatarUrl"],
+        createdAt = json["createdAt"];
 
   /* 
     유저모델 복사 및 덮어쓰기 메소드
@@ -71,6 +76,18 @@ class UserModel {
       link: link ?? this.link,
       birthday: birthday ?? this.birthday,
       avatarUrl: avatarUrl ?? this.avatarUrl,
+      createdAt: createdAt,
     );
   }
+
+  // 유저모델 받아서 생성하는 메소드
+  UserModel.createModel({required UserModel newModel})
+      : uid = newModel.uid,
+        email = newModel.email,
+        name = newModel.name,
+        bio = newModel.bio,
+        link = newModel.link,
+        birthday = newModel.birthday,
+        avatarUrl = newModel.avatarUrl,
+        createdAt = newModel.createdAt;
 }

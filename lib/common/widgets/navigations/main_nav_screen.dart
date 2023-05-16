@@ -35,7 +35,8 @@ class _MainNavScreenState extends ConsumerState<MainNavScreen> {
     "message",
     "mypage",
   ];
-  late int _selectedIndex = _tabs.indexOf(widget.tabName);
+  // late int _selectedIndex = _tabs.indexOf(widget.tabName);
+  late int _selectedIndex = 3;
 
   // NAV바 이동 함수
   void _moveNav(int index) {

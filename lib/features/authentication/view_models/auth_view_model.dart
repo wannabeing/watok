@@ -8,7 +8,7 @@ import 'package:watok/features/mypage/view_models/user_view_model.dart';
   Firebase에게 요청 역할만 한다.
   때문에 void 추가 
 */
-class AuthViewModel extends AsyncNotifier<bool> {
+class AuthViewModel extends AsyncNotifier<bool?> {
   // Firebase와 연결되어있는 Repo 생성
   late final AuthRepository _authRepository;
 
@@ -55,7 +55,7 @@ class AuthViewModel extends AsyncNotifier<bool> {
 
         // 유저가 생성되었다면 유저정보 저장 provider 호출
         await newUserProvider.createAccount(userCredential);
-        return true;
+        return null;
       },
     );
     // Error 처리
@@ -71,6 +71,6 @@ final authForm = StateProvider((ref) => {});
   expose(노출)할 ViewModel과
   그 ViewModel에 들어있는 데이터의 형식을 알려줌
 */
-final authProvider = AsyncNotifierProvider<AuthViewModel, bool>(
+final authProvider = AsyncNotifierProvider<AuthViewModel, bool?>(
   () => AuthViewModel(),
 );

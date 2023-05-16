@@ -9,10 +9,13 @@ class MsgRepository {
 
   // 메시지 전송
   // chats/:chatId/texts/{ ...msgModel }
-  Future<void> sendMsg(MsgModel msgModel) async {
+  Future<void> sendMsg({
+    required MsgModel msgModel,
+    required String chatsId,
+  }) async {
     await _db
         .collection("chats")
-        .doc("0sTJpZnOfxc30joVJyvz")
+        .doc(chatsId)
         .collection("texts")
         .add(msgModel.toJSON());
   }

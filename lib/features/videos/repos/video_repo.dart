@@ -36,16 +36,18 @@ class VideoRepository {
   */
   Future<QuerySnapshot<Map<String, dynamic>>> getVideos(
       {int? lastCreatedAt}) async {
-    // 쿼리문 변수
+    // 쿼리문
     final videoQuery = _db
         .collection("videos")
         .orderBy("createdAt", descending: true)
         .limit(2);
-
+    // 인자값이 없다면 최신 비디오 2개 GET
     if (lastCreatedAt == null) {
       return await videoQuery.get();
-    } else {
-      return videoQuery.startAfter([lastCreatedAt]).get();
+    }
+    // 인자값 이후로 최신 비디오 2개 GET
+    else {
+      return await videoQuery.startAfter([lastCreatedAt]).get();
     }
   }
 
@@ -74,7 +76,7 @@ class VideoRepository {
     return isLike.exists;
   }
 
-  // GETTER 비디오 함수
+  // GETTER 비디오 1개 가져오기 함수
   Future<Map<String, dynamic>?> getVideo({required String vid}) async {
     if (vid == "") return null;
     final video = await _db.collection("videos").doc(vid).get();

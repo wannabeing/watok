@@ -71,9 +71,9 @@ final goRouterProvider = Provider((ref) {
             path: DmDetailScreen.route,
             name: DmDetailScreen.name,
             builder: (context, state) {
-              final String id = state.params["chatId"].toString();
+              final String id = state.params["chatsId"].toString();
               return DmDetailScreen(
-                chatId: id,
+                chatsId: id,
               );
             },
           ),

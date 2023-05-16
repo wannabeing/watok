@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/width_types.dart';
 import 'package:watok/features/authentication/repos/auth_repo.dart';
-import 'package:watok/features/authentication/views/login_screen.dart';
 import 'package:watok/features/videos/view_models/video_config_vm.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -80,8 +78,8 @@ class SettingsScreenState extends ConsumerState<SettingsScreen> {
     await ref.read(authRepository).sendLogout();
 
     // 로그인 페이지 redirect
-    if (!mounted) return;
-    context.go(LoginScreen.route);
+    // if (!mounted) return;
+    // context.go(LoginScreen.route);
   }
 
   // 알림 테스트 함수 (Android)

@@ -6,18 +6,19 @@ import 'package:watok/features/authentication/repos/auth_repo.dart';
 import 'package:watok/features/message/models/msg_model.dart';
 import 'package:watok/features/message/repos/msg_repo.dart';
 
-class MsgViewModel extends AsyncNotifier<void> {
+class MsgViewModel extends FamilyAsyncNotifier<void, String> {
   late final MsgRepository _msgRepository;
+  static late String _chatsId;
 
   @override
-  FutureOr<void> build() {
+  FutureOr<void> build(String arg) {
     _msgRepository = ref.read(msgRepository);
+    _chatsId = arg;
   }
 
+  // 메시지 보내기 함수
   Future<void> sendMsg(String text) async {
     final user = ref.read(authRepository).user;
-    state = const AsyncValue.loading();
-
     state = await AsyncValue.guard(
       () async {
         final newMsgModel = MsgModel(
@@ -25,22 +26,31 @@ class MsgViewModel extends AsyncNotifier<void> {
           text: text,
           createdAt: DateTime.now().millisecondsSinceEpoch,
         );
-        await _msgRepository.sendMsg(newMsgModel);
+        await _msgRepository.sendMsg(
+          chatsId: _chatsId,
+          msgModel: newMsgModel,
+        );
       },
     );
   }
+
+  Future<String> getChatsId() async {
+    return _chatsId;
+  }
 }
 
-final msgViewModel = AsyncNotifierProvider<MsgViewModel, void>(
+final msgProvider = AsyncNotifierProvider.family<MsgViewModel, void, String>(
   () => MsgViewModel(),
 );
 
-final msgStremViewModel = StreamProvider.autoDispose<List<MsgModel>>((ref) {
+// stream Provider
+final msgStreamProvider =
+    StreamProvider.family.autoDispose<List<MsgModel>, String>((ref, _chatsId) {
   final db = FirebaseFirestore.instance;
 
   final snapshots = db
       .collection("chats")
-      .doc("0sTJpZnOfxc30joVJyvz")
+      .doc(_chatsId)
       .collection("texts")
       .orderBy("createdAt")
       .snapshots();

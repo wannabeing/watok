@@ -6,16 +6,19 @@ import 'package:watok/common/widgets/darkTheme_config.dart';
 import 'package:watok/constants/gaps.dart';
 import 'package:watok/constants/sizes.dart';
 import 'package:watok/features/authentication/repos/auth_repo.dart';
+import 'package:watok/features/message/vms/chatroom_vm.dart';
 import 'package:watok/features/message/vms/msg_vm.dart';
+import 'package:watok/features/mypage/models/user_model.dart';
+import 'package:watok/features/mypage/view_models/user_view_model.dart';
 
 class DmDetailScreen extends ConsumerStatefulWidget {
   static const name = "dmDetail";
-  static const route = ":chatId";
-  final String chatId;
+  static const route = ":chatsId";
+  final String chatsId;
 
   const DmDetailScreen({
     super.key,
-    required this.chatId,
+    required this.chatsId,
   });
 
   @override
@@ -27,6 +30,7 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isWriting = false; // 입력창 활성화 여부
   String _text = '';
+  UserModel _opponent = UserModel.empty(); // 상대방 유저 정보
 
   // 인풋창 클릭 함수
   void _onTapInput() {
@@ -45,10 +49,11 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
     });
   }
 
+  // 메시지 전송
   void _onSubmit() async {
     if (_text == '') return;
 
-    await ref.read(msgViewModel.notifier).sendMsg(_text);
+    await ref.read(msgProvider(widget.chatsId).notifier).sendMsg(_text);
 
     // 텍스트필드 초기화
     _textController.text = '';
@@ -64,9 +69,27 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
         !_scrollController.position.outOfRange) {}
   }
 
+  // 상대 유저정보 GET 함수
+  Future<void> _initGetOpponentInfo() async {
+    final loginUid = ref.read(authRepository).user!.uid; // 로그인 유저 id
+    final chatsInfo =
+        await ref.read(chatRoomProvider.notifier).getChatRoom(widget.chatsId);
+
+    // 로그인유저가 me/you 누구냐에 따라 다른 모델 가져오기
+    final resultModel = await ref
+        .read(userProvider.notifier)
+        .getProfile(loginUid == chatsInfo.me ? chatsInfo.you : chatsInfo.me);
+
+    _opponent = UserModel.createModel(newModel: resultModel);
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _initGetOpponentInfo(); // 상대 유저정보 GET
+
     _textController.addListener(() {
       setState(() {
         _text = _textController.text;
@@ -82,13 +105,12 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
   void dispose() {
     _textController.dispose();
     _scrollController.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    String chatId = widget.chatId;
-
     return Scaffold(
       appBar: AppBar(
         title: ListTile(
@@ -98,8 +120,10 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
               CircleAvatar(
                 maxRadius: Sizes.size24,
                 backgroundColor: Theme.of(context).primaryColor,
-                foregroundImage: const NetworkImage(
-                    "https://avatars.githubusercontent.com/u/79440384"),
+                foregroundImage: _opponent.avatarUrl
+                    ? NetworkImage(
+                        "https://firebasestorage.googleapis.com/v0/b/my-watok.appspot.com/o/avatars%2F${_opponent.uid}?alt=media")
+                    : null,
               ),
               Positioned(
                 bottom: 0,
@@ -120,7 +144,7 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
             ],
           ),
           title: Text(
-            "혁잉 ($chatId)",
+            _opponent.name,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size18,
@@ -147,9 +171,11 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
         onTap: _onTapBody,
         child: Stack(
           children: [
-            ref.watch(msgStremViewModel).when(
+            ref.watch(msgStreamProvider(widget.chatsId)).when(
                   data: (msgList) {
+                    // 로그인 유저 정보
                     final user = ref.read(authRepository).user;
+
                     // 리스트뷰 끝으로 이동
                     SchedulerBinding.instance.addPostFrameCallback((_) {
                       _scrollController
@@ -157,6 +183,8 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
                     });
 
                     return ListView.separated(
+                      separatorBuilder: (context, index) => Gaps.v10,
+                      itemCount: msgList.length,
                       controller: _scrollController,
                       padding: EdgeInsets.only(
                         top: Sizes.size24,
@@ -203,8 +231,6 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
                           ],
                         );
                       },
-                      separatorBuilder: (context, index) => Gaps.v10,
-                      itemCount: msgList.length,
                     );
                   },
                   loading: () => Center(
@@ -295,20 +321,25 @@ class _DmDetailScreenState extends ConsumerState<DmDetailScreen> {
                     ],
                   ),
                 ),
-                // child: Row(
-                //   children: [
-                //     const Expanded(child: TextField()),
-                //     Gaps.h20,
-                //     Container(
-                //       child: const FaIcon(FontAwesomeIcons.paperPlane),
-                //     )
-                //   ],
-                // ),
               ),
             ),
           ],
         ),
       ),
     );
+
+    // loading: () => Center(
+    //   child: CircularProgressIndicator(
+    //     color: Theme.of(context).primaryColor,
+    //   ),
+    // ),
+    // error: (error, stackTrace) => Center(
+    //   child: Text(
+    //     "$error",
+    //     style: const TextStyle(
+    //       color: Colors.white,
+    //     ),
+    //   ),
+    // ),
   }
 }

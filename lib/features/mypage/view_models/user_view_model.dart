@@ -21,6 +21,8 @@ class UserViewModel extends AsyncNotifier<UserModel> {
     // 회원가입 폼 데이터 초기화
     form = ref.read(authForm);
 
+    print(_authRepository.isLogin);
+
     // 로그인되어있으면
     if (_authRepository.isLogin) {
       final fromDB =
@@ -46,10 +48,11 @@ class UserViewModel extends AsyncNotifier<UserModel> {
       uid: createUser.user!.uid,
       email: createUser.user!.email ?? "test@test.com",
       name: createUser.user!.displayName ?? "익명",
-      bio: "undefined",
-      link: "undefined",
+      bio: "",
+      link: "",
       birthday: form["birthday"],
       avatarUrl: false,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
     );
     // firestore 함수 호출
     await _userRepository.createProfile(newProfile);
@@ -81,6 +84,15 @@ class UserViewModel extends AsyncNotifier<UserModel> {
       state.value!.uid,
       {"name": newName, "bio": newBio, "link": newLink},
     );
+  }
+
+  Future<UserModel> getProfile(String uid) async {
+    final fromDB = await _userRepository.getProfile(uid);
+    if (fromDB != null) {
+      return UserModel.fromJSON(fromDB);
+    } else {
+      return UserModel.empty();
+    }
   }
 }
 

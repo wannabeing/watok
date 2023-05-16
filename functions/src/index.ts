@@ -126,3 +126,49 @@ export const listenDislike = functions
       .doc(likeId)
       .delete();
   });
+
+// 채팅방 chats 생성시
+export const listenChats = functions
+  .region("asia-northeast3")
+  .firestore.document("chats/{chatsId}")
+  .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    const chatsModel = snapshot.data();
+    const chatsId = snapshot.id;
+
+    const yourInfo = (
+      await db.collection("users").doc(chatsModel.you).get()
+    ).data();
+    const myInfo = (
+      await db.collection("users").doc(chatsModel.me).get()
+    ).data();
+
+    // user 컬렉션에 생성된 채팅방 저장
+    /*
+      - 코드설명  
+      DB 유저 객체 안에 채팅 폴더를 생성하여 쿼리요청시 부하를 최소화한다.
+      채팅폴더에는 채팅모델의 간소화된 정보를 저장한다.
+
+      ex) users/:userId/mychats/:chatsId/{ ... }
+    */
+    await db
+      .collection("users")
+      .doc(chatsModel.me)
+      .collection("mychats")
+      .doc(chatsId)
+      .set({
+        chatsId: chatsId,
+        yourId: yourInfo!.uid,
+        yourName: yourInfo!.name,
+      });
+    await db
+      .collection("users")
+      .doc(chatsModel.you)
+      .collection("mychats")
+      .doc(chatsId)
+      .set({
+        chatsId: chatsId,
+        yourId: myInfo!.uid,
+        yourName: myInfo!.name,
+      });
+  });

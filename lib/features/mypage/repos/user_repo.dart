@@ -25,7 +25,26 @@ class UserRepository {
     return user.data();
   }
 
-  // SETTER 프로필
+  // GETTER 여러명의 프로필
+  Future<QuerySnapshot<Map<String, dynamic>>> getFiveUsers({
+    String? lastUid,
+    required String loginUid,
+  }) async {
+    // 쿼리문
+    final peopleQuery = _db
+        .collection("users")
+        .where("uid", isNotEqualTo: loginUid)
+        .orderBy("uid", descending: true);
+
+    // 인자값이 없다면 최신유저 12명 GET
+    if (lastUid == null) {
+      return await peopleQuery.limit(1).get();
+    }
+    // 인자값 이후로 5명 GET
+    else {
+      return await peopleQuery.limit(5).startAfter([lastUid]).get();
+    }
+  }
 
   // UPLOAD 프로필 이미지
   Future<void> uploadAvatarImg(File img, String uid) async {
